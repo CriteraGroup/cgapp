@@ -16,9 +16,6 @@
     <td>Reason</td>
     <td>Status</td>
   </thead>
-  <tbody>
-
-  </tbody>
 </table>
 <footer>
   <button id="save" onclick="save()">Save</button>
@@ -57,10 +54,13 @@
         group.className = 'question-group';
         question.className = 'question';
         answer.className = 'answer';
+        finding.className = 'finding';
+        reason.className = 'reason';
+        status.className = 'status';
 
-        rating1.value = 'Compliant';
-        rating2.value = 'Partially Compliant';
-        rating3.value = 'Non Compliant';
+        rating1.value = 1;
+        rating2.value = 0.5;
+        rating3.value = 0;
 
         rating1.textContent = 'Compliant';
         rating2.textContent = 'Partially Compliant';
@@ -70,11 +70,13 @@
         answer.value = data[i][1];
         finding.value = data[i][2];
         reason.value = data[i][3];
-        status.value = getCompliancyValue(data[i][4]);
+        status.value = data[i][4];
 
         status.appendChild(rating1);
         status.appendChild(rating2);
         status.appendChild(rating3);
+
+        setStatus(status, data[i][4]);
 
         questionContainer.appendChild(question);
         answerContainer.appendChild(answer);
@@ -90,28 +92,33 @@
 
         content.appendChild(group);
       }
+
+      function setStatus(status, dataValue) {
+        var i,
+          options = status.options,
+          size = options.length;
+
+        for(i = 0; i < size; i++) {
+          if(options[i].value == dataValue) {
+            status.selectedIndex = i;
+            break;
+          }
+        }
+      }
     });
   }
 
   function save() {
+    var rows = document.querySelectorAll('.question-group');
+    var i;
+    var size = rows.length;
 
-  }
+    for(i = 0; i < size; i++) {
 
-  function getCompliancyValue(rating) {
-    let value = '';
-
-    switch(rating) {
-      case 1:
-        value = 'Compliant';
-        break;
-      case 0.5:
-        value = 'Partially compliant';
-        break;
-      default:
-        value = 'Non compliant';
     }
 
-    return value;
+    console.log(rows);
+    console.log(children);
   }
 </script>
 </body>
