@@ -6,7 +6,10 @@
   <link rel="stylesheet" href="app.css">
 </head>
 <body>
-<header class="app-header">Critera Group</header>
+<header class="app-header">
+  Critera Group
+  <button id="save" onclick="save()">Save</button>
+</header>
 
 <table id="content">
   <thead>
@@ -17,22 +20,20 @@
     <td>Status</td>
   </thead>
 </table>
-<footer>
-  <button id="save" onclick="save()">Save</button>
-</footer>
 <script>
+  var ipc = require('electron').ipcRenderer;
+
   document.addEventListener('DOMContentLoaded', bodyLoaded);
 
   function bodyLoaded() {
-    var ipc = require('electron').ipcRenderer;
-
     ipc.send('bodyLoaded');
     ipc.once('bodyLoadedReply', function(response, data) {
-      var group, question, answer, finding, reason, status, rating1, rating2, rating3,
-        questionContainer, answerContainer, findingContainer, reasonContainer, statusContainer;
-      var content = document.getElementById('content');
+      var group, question, answer, finding, reason, status, rating1, rating2, rating3, questionContainer,
+        answerContainer, findingContainer, reasonContainer, statusContainer;
+      var content = document.getElementById('content'),
+        dataLength = data.length;
 
-      for(var i = 0; i < data.length; i++) {
+      for(var i = 0; i < dataLength; i++) {
         group = document.createElement('tr');
 
         questionContainer = document.createElement('td');
@@ -109,16 +110,25 @@
   }
 
   function save() {
+    var row, i;
     var rows = document.querySelectorAll('.question-group');
-    var i;
     var size = rows.length;
 
-    for(i = 0; i < size; i++) {
+    var saveData = [];
 
+    for(i = 0; i < size; i++) {
+      row = rows[i];
+
+      saveData.push([
+        row.querySelector('.question').textContent,
+        row.querySelector('.answer').value,
+        row.querySelector('.finding').value,
+        row.querySelector('.reason').value,
+        row.querySelector('.status').value
+      ]);
     }
 
-    console.log(rows);
-    console.log(children);
+    ipc.send('save', saveData);
   }
 </script>
 </body>
