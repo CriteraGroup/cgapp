@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Critera Group</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="app-header">Critera Group</header>
+
+<table id="content">
+  <thead>
+    <td>Question</td>
+    <td>Answer</td>
+    <td>Finding</td>
+    <td>Reason</td>
+    <td>Status</td>
+  </thead>
+  <tbody>
+
+  </tbody>
+</table>
+<footer>
+  <button id="save" onclick="save()">Save</button>
+</footer>
+<script>
+  document.addEventListener('DOMContentLoaded', bodyLoaded);
+
+  function bodyLoaded() {
+    var ipc = require('electron').ipcRenderer;
+
+    ipc.send('bodyLoaded');
+    ipc.once('bodyLoadedReply', function(response, data) {
+      var group, question, answer, finding, reason, status, rating1, rating2, rating3,
+        questionContainer, answerContainer, findingContainer, reasonContainer, statusContainer;
+      var content = document.getElementById('content');
+
+      for(var i = 0; i < data.length; i++) {
+        group = document.createElement('tr');
+
+        questionContainer = document.createElement('td');
+        answerContainer = document.createElement('td');
+        findingContainer = document.createElement('td');
+        reasonContainer = document.createElement('td');
+        statusContainer = document.createElement('td');
+
+        question = document.createElement('span');
+        answer = document.createElement('textarea');
+        finding = document.createElement('textarea');
+        reason = document.createElement('textarea');
+        status = document.createElement('select');
+
+        rating1 = document.createElement('option');
+        rating2 = document.createElement('option');
+        rating3 = document.createElement('option');
+
+        group.className = 'question-group';
+        question.className = 'question';
+        answer.className = 'answer';
+
+        rating1.value = 'Compliant';
+        rating2.value = 'Partially Compliant';
+        rating3.value = 'Non Compliant';
+
+        rating1.textContent = 'Compliant';
+        rating2.textContent = 'Partially Compliant';
+        rating3.textContent = 'Non Compliant';
+
+        question.innerHTML = data[i][0];
+        answer.value = data[i][1];
+        finding.value = data[i][2];
+        reason.value = data[i][3];
+        status.value = getCompliancyValue(data[i][4]);
+
+        status.appendChild(rating1);
+        status.appendChild(rating2);
+        status.appendChild(rating3);
+
+        questionContainer.appendChild(question);
+        answerContainer.appendChild(answer);
+        findingContainer.appendChild(finding);
+        reasonContainer.appendChild(reason);
+        statusContainer.appendChild(status);
+
+        group.appendChild(questionContainer);
+        group.appendChild(answerContainer);
+        group.appendChild(findingContainer);
+        group.appendChild(reasonContainer);
+        group.appendChild(statusContainer);
+
+        content.appendChild(group);
+      }
+    });
+  }
+
+  function save() {
+
+  }
+
+  function getCompliancyValue(rating) {
+    let value = '';
+
+    switch(rating) {
+      case 1:
+        value = 'Compliant';
+        break;
+      case 0.5:
+        value = 'Partially compliant';
+        break;
+      default:
+        value = 'Non compliant';
+    }
+
+    return value;
+  }
+</script>
+</body>
+</html>

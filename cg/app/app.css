@@ -1,0 +1,30 @@
+html, body {
+  font-family: 'Helvetica Neue', 'Arial', 'Times New Roman';
+  font-size: 16px;
+  font-weight: 100;
+  margin: 0;
+  padding: 0;
+}
+
+.app-header {
+  background-color: #1A237E;
+  border-bottom: 2px solid #3F51B5;
+  color: #E8EAF6;
+  font-size: 24px;
+  height: 75px;
+  line-height: 75px;
+  text-align: center;
+}
+
+.question-group {
+  margin: 10px 15px;
+}
+
+.question {
+  font-weight: 500;
+  margin-right: 15px;
+}
+
+.answer {
+  font-weight: 300;
+}

@@ -1,0 +1,20 @@
+{
+  "name": "cg",
+  "version": "1.0.0",
+  "description": "Simple version of Critera Group application",
+  "main": "main.js",
+  "scripts": {
+    "package": "electron-packager ./ CGApp --all --out ~/Desktop/CGApp --version 1.3.4 --overwrite",
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kevin Warnock <kevin.warnock@capitalone.com> (http://github.com/folterung)",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^1.3.4",
+    "node-xlsx": "^0.7.2"
+  },
+  "devDependencies": {
+    "electron-packager": "^7.7.0"
+  }
+}
