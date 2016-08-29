@@ -1,5 +1,5 @@
 module.exports.CGApp = (function() {
-  let App, BrowserWindow, win;
+  let App, BrowserWindow, shortcut, win;
 
   const ACTIVATE = 'activate',
         CLOSED = 'closed',
@@ -12,6 +12,7 @@ module.exports.CGApp = (function() {
   function CGApp() {
     App = arguments[0];
     BrowserWindow = arguments[1];
+    shortcut = arguments[2];
 
     App.on(READY, _createWindow);
     App.on(ACTIVATE, _onActivate);
@@ -26,8 +27,6 @@ module.exports.CGApp = (function() {
       win.once(READY_TO_SHOW, _onReadyToShow);
 
       win.loadURL(VIEW_PATH);
-
-      win.webContents.openDevTools();
 
       win.on(CLOSED, _onClose);
     }
@@ -44,6 +43,7 @@ module.exports.CGApp = (function() {
 
     function _onReadyToShow() {
       win.show();
+      win.setFullScreen(true);
     }
   }
 
