@@ -4,11 +4,13 @@
   <meta charset="UTF-8">
   <title>Critera Group</title>
   <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="../messenger/messenger.css">
 </head>
 <body>
 <header class="app-header">
   Critera Group
-  <button id="save" onclick="save()">Save</button>
+  <button id="exit" onclick="exit();">Exit</button>
+  <button id="save" onclick="save();">Save</button>
 </header>
 
 <table id="content">
@@ -20,6 +22,9 @@
     <td>Status</td>
   </thead>
 </table>
+<script>
+  __cg = {};
+</script>
 <script>
   var ipc = require('electron').ipcRenderer;
 
@@ -107,6 +112,14 @@
         }
       }
     });
+    ipc.on('success-message', function(event, msg) {
+      __cg.messenger.success(msg);
+    })
+  }
+
+  function exit() {
+    console.log('Sending exit event');
+    ipc.send('exit');
   }
 
   function save() {
@@ -130,6 +143,9 @@
 
     ipc.send('save', saveData);
   }
+</script>
+<script src="../messenger/messenger.js">
+
 </script>
 </body>
 </html>
