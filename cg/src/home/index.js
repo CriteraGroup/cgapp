@@ -1,3 +1,5 @@
+require('./load.js');
+
 module.exports.CGApp = (function() {
   let App, BrowserWindow, shortcut, win;
 
