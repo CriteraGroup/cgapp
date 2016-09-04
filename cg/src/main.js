@@ -1,11 +1,12 @@
 const {app, BrowserWindow} = require('electron');
-const {CGApp} = require('./app');
+const {CGApp} = require('./home');
+const {Excel} = require('./workbook-manager')
 
 let fs = require('fs');
 
 // let xlsx = require('node-xlsx');
 let ipc = require('electron').ipcMain;
-let data = require('../cgdata.json');
+let data = require('../../cgdata.json');
 
 ipc.on('bodyLoaded', function(event) {
   // const workSheetsFromFile = xlsx.parse(`${__dirname}/data.xlsx`);
