@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="cgapp">
+<head>
+  <meta charset="UTF-8">
+  <title>Critera Group</title>
+  <script type="text/javascript" src="../../node_modules/angular/angular.min.js"></script>
+  <script type="text/javascript" src="../client/app.js"></script>
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../messenger/messenger.css">
+</head>
+<body ng-controller="mainController as main">
+  <header class="app-header">
+    Critera Group
+    <button class="cg-button exit" data-ng-click="main.exit()">Exit</button>
+    <button class="cg-button save" data-ng-click="main.save()">Save</button>
+  </header>
+
+  <span class="question-group" data-ng-repeat="row in main.data">
+    <span class="row-section">
+      <span class="question-label">Question:</span>
+      <span class="question">
+        {{::row.question}}
+      </span>
+    </span>
+    <span class="row-section">
+      <span class="answer-label">Answer:</span>
+      <span class="answer">
+        <textarea data-ng-model="row.answer"></textarea>
+      </span>
+    </span>
+    <span class="row-section">
+      <span class="finding-label">Finding:</span>
+      <span class="finding">
+        <textarea data-ng-model="row.finding"></textarea>
+      </span>
+    </span>
+    <span class="row-section">
+      <span class="status-label">Status:</span>
+      <span class="status">
+        <textarea data-ng-model="row.status"></textarea>
+      </span>
+    </span>
+  </span>
+</body>
+</html>

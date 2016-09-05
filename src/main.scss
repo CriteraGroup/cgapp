@@ -1,0 +1,72 @@
+@import "../node_modules/susy/sass/susy";
+
+html, body {
+  font-family: 'Helvetica Neue', 'Arial', 'Times New Roman';
+  font-size: 16px;
+  font-weight: 100;
+  margin: 0;
+  padding: 45px 15px 15px;
+}
+
+.app-header {
+  background-color: #1A237E;
+  border-bottom: 2px solid #3F51B5;
+  color: #E8EAF6;
+  font-size: 24px;
+  height: 75px;
+  line-height: 75px;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.cg-button {
+  background: #536DFE;
+  border: 1px solid #E8EAF6;
+  border-radius: 4px;
+  color: #E8EAF6;
+  font-size: 16px;
+  font-weight: 100;
+  height: 40px;
+  position: absolute;
+  top: 10px;
+  width: 80px;
+
+  &:hover {
+    cursor: pointer;
+    background: #304FFE;
+  }
+}
+
+.save {
+  right: 10px;
+}
+
+.exit {
+  left: 10px;
+}
+
+.question-group {
+  padding-top: 30px;
+}
+
+.row-section {
+  @include container(12);
+  box-sizing: border-box;
+}
+
+.question, .answer, .finding, .status {
+  @include span(12);
+
+  textarea {
+    height: 75px;
+    width: 100%;
+  }
+
+  &-label {
+    font-size: 18px;
+    font-weight: 500;
+  }
+}
