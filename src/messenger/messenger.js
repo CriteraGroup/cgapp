@@ -1,0 +1,3 @@
+__cg = {
+  messenger: createMessenger()
+};

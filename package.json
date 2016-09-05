@@ -1,0 +1,29 @@
+{
+  "name": "cg",
+  "version": "1.0.0",
+  "description": "Simple version of Critera Group application",
+  "main": "src/main.js",
+  "scripts": {
+    "styles": "gulp styles",
+    "electron": "electron .",
+    "package": "electron-packager ./ CGApp --platform win32 --all --out ../release --version 1.3.4 --overwrite",
+    "start": "npm run styles && npm run electron",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kevin Warnock <kevin.warnock@capitalone.com> (http://github.com/folterung)",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.5.8",
+    "breakpoint-sass": "^2.7.0",
+    "electron": "^1.3.4",
+    "exceljs": "^0.2.18",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^2.3.2",
+    "node-sass": "^3.9.0",
+    "susy": "^2.2.12",
+    "xlsx": "^0.8.0"
+  },
+  "devDependencies": {
+    "electron-packager": "^7.7.0"
+  }
+}
