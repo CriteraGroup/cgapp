@@ -1,11 +1,18 @@
 @import "../node_modules/susy/sass/susy";
 
+$susy: (
+  columns: 12,
+  gutters: 1/4
+);
+
+$purple: #3F51B5;
+$white: #fff;
+
 html, body {
   font-family: 'Helvetica Neue', 'Arial', 'Times New Roman';
   font-size: 16px;
   font-weight: 100;
   margin: 0;
-  padding: 45px 15px 15px;
 }
 
 .app-header {
@@ -15,8 +22,8 @@ html, body {
   font-size: 24px;
   height: 75px;
   line-height: 75px;
+  position: relative;
   text-align: center;
-  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -30,13 +37,18 @@ html, body {
   font-size: 16px;
   font-weight: 100;
   height: 40px;
-  position: absolute;
-  top: 10px;
-  width: 80px;
 
   &:hover {
     cursor: pointer;
     background: #304FFE;
+  }
+}
+
+header {
+  .cg-button {
+    position: absolute;
+    top: 10px;
+    width: 80px;
   }
 }
 
@@ -49,17 +61,17 @@ html, body {
 }
 
 .question-group {
-  padding-top: 30px;
+  border-bottom: 2px solid $purple;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
 .row-section {
-  @include container(12);
   box-sizing: border-box;
+  margin-bottom: 15px;
 }
 
 .question, .answer, .finding, .status {
-  @include span(12);
-
   textarea {
     height: 75px;
     width: 100%;
@@ -68,5 +80,38 @@ html, body {
   &-label {
     font-size: 18px;
     font-weight: 500;
+  }
+}
+
+.controls {
+  @include container;
+
+  background-color: #5C6BC0;
+  border-bottom: 2px solid #1A237E;
+  color: $white;
+  line-height: 60px;
+  height: 60px;
+  text-align: center;
+
+  .previous-container {
+    @include span(4);
+
+    height: 60px;
+  }
+
+  .progress-container {
+    @include span(4 at 5);
+
+    height: 60px;
+  }
+
+  .next-container {
+    @include span(4 at 9);
+
+    height: 60px;
+  }
+
+  .cg-button {
+    width: 100px;
   }
 }

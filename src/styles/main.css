@@ -2,8 +2,7 @@ html, body {
   font-family: 'Helvetica Neue', 'Arial', 'Times New Roman';
   font-size: 16px;
   font-weight: 100;
-  margin: 0;
-  padding: 45px 15px 15px; }
+  margin: 0; }
 
 .app-header {
   background-color: #1A237E;
@@ -12,8 +11,8 @@ html, body {
   font-size: 24px;
   height: 75px;
   line-height: 75px;
+  position: relative;
   text-align: center;
-  position: fixed;
   top: 0;
   left: 0;
   right: 0; }
@@ -25,13 +24,15 @@ html, body {
   color: #E8EAF6;
   font-size: 16px;
   font-weight: 100;
-  height: 40px;
-  position: absolute;
-  top: 10px;
-  width: 80px; }
+  height: 40px; }
   .cg-button:hover {
     cursor: pointer;
     background: #304FFE; }
+
+header .cg-button {
+  position: absolute;
+  top: 10px;
+  width: 80px; }
 
 .save {
   right: 10px; }
@@ -40,25 +41,50 @@ html, body {
   left: 10px; }
 
 .question-group {
-  padding-top: 30px; }
+  border-bottom: 2px solid #3F51B5;
+  margin-left: 15px;
+  margin-right: 15px; }
 
 .row-section {
+  box-sizing: border-box;
+  margin-bottom: 15px; }
+
+.question textarea, .answer textarea, .finding textarea, .status textarea {
+  height: 75px;
+  width: 100%; }
+
+.question-label, .answer-label, .finding-label, .status-label {
+  font-size: 18px;
+  font-weight: 500; }
+
+.controls {
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
-  box-sizing: border-box; }
-  .row-section:after {
+  background-color: #5C6BC0;
+  border-bottom: 2px solid #1A237E;
+  color: #fff;
+  line-height: 60px;
+  height: 60px;
+  text-align: center; }
+  .controls:after {
     content: " ";
     display: block;
     clear: both; }
-
-.question, .answer, .finding, .status {
-  width: 310.52632%;
-  float: left;
-  margin-right: 5.26316%; }
-  .question textarea, .answer textarea, .finding textarea, .status textarea {
-    height: 75px;
-    width: 100%; }
-  .question-label, .answer-label, .finding-label, .status-label {
-    font-size: 18px;
-    font-weight: 500; }
+  .controls .previous-container {
+    width: 32.20339%;
+    float: left;
+    margin-right: 1.69492%;
+    height: 60px; }
+  .controls .progress-container {
+    width: 32.20339%;
+    float: left;
+    margin-right: 1.69492%;
+    height: 60px; }
+  .controls .next-container {
+    width: 32.20339%;
+    float: right;
+    margin-right: 0;
+    height: 60px; }
+  .controls .cg-button {
+    width: 100px; }

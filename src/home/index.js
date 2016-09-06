@@ -47,7 +47,7 @@ module.exports.CGApp = (function() {
 
     function _onReadyToShow() {
       win.show();
-      win.setFullScreen(true);
+    //   win.setFullScreen(true);
     }
   }
 
