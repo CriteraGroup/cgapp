@@ -22,11 +22,11 @@ module.exports.loadXLSX = function loadXLSX(filename, cb) {
 
     numberOfColumns = columns.length;
     end = results[4];
-    rows = Object.create(null);
+    rows = [];
     columnNames = Object.create(null);
 
     for(i = results[2]; i <= end; i++) {
-      row = Object.create(null);
+      row = {};
 
       for(j = 0; j < numberOfColumns; j++) {
         if(i == 1) {
@@ -41,7 +41,7 @@ module.exports.loadXLSX = function loadXLSX(filename, cb) {
       }
 
       if(i != 1) {
-        rows[i - 1] = row;
+        rows.push(row);
       }
     }
 

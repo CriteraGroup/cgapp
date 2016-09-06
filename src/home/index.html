@@ -14,32 +14,45 @@
     <button class="cg-button exit" data-ng-click="main.exit()">Exit</button>
     <button class="cg-button save" data-ng-click="main.save()">Save</button>
   </header>
+  <div class="controls">
+    <span class="previous-container">
+      <button class="cg-button" type="button" data-ng-click="main.previous()">Previous</button>
+    </span>
 
-  <span class="question-group" data-ng-repeat="row in main.data">
-    <span class="row-section">
-      <span class="question-label">Question:</span>
-      <span class="question">
+    <span class="progress-container">
+      {{main.data.length}}
+    </span>
+
+    <span class="next-container">
+      <button class="cg-button" type="button" data-ng-click="main.next()">Next</button>
+    </span>
+  </div>
+
+  <div class="question-group" data-ng-repeat="row in main.data">
+    <div class="row-section">
+      <div class="question-label">Question:</div>
+      <div class="question">
         {{::row.question}}
-      </span>
-    </span>
-    <span class="row-section">
-      <span class="answer-label">Answer:</span>
-      <span class="answer">
+      </div>
+    </div>
+    <div class="row-section">
+      <div class="answer-label">Answer:</div>
+      <div class="answer">
         <textarea data-ng-model="row.answer"></textarea>
-      </span>
-    </span>
-    <span class="row-section">
-      <span class="finding-label">Finding:</span>
-      <span class="finding">
+      </div>
+    </div>
+    <div class="row-section">
+      <div class="finding-label">Finding:</div>
+      <div class="finding">
         <textarea data-ng-model="row.finding"></textarea>
-      </span>
-    </span>
-    <span class="row-section">
-      <span class="status-label">Status:</span>
-      <span class="status">
+      </div>
+    </div>
+    <div class="row-section">
+      <div class="status-label">Status:</div>
+      <div class="status">
         <textarea data-ng-model="row.status"></textarea>
-      </span>
-    </span>
-  </span>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
