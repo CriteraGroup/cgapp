@@ -25,15 +25,15 @@ ipc.on('save', function(event, rows) {
     { header: 'status', key: 'status', width: 10 }
   ];
 
-  for(var row in rows) {
-    sheet.addRow({
-      section: rows[row].section,
-      question: rows[row].question,
-      answer: rows[row].answer,
-      finding: rows[row].finding,
-      status: rows[row].status
-    });
-  };
+  rows.forEach(function loopRows(row) {
+      sheet.addRow({
+        section: row.section,
+        question: row.question,
+        answer: row.answer,
+        finding: row.finding,
+        status: row.status
+      });
+  });
 
   workbook.xlsx.writeFile('data.xlsx').then(function() {
     event.sender.send('success-message', 'Successfully saved changes.');

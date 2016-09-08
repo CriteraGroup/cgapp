@@ -16,41 +16,41 @@
   </header>
   <div class="controls">
     <span class="previous-container">
-      <button class="cg-button" type="button" data-ng-click="main.previous()">Previous</button>
+      <button class="cg-button" type="button" data-ng-click="main.previous()" data-ng-disabled="!main.canGoPrevious()">Previous</button>
     </span>
 
     <span class="progress-container">
-      {{main.data.length}}
+      <input data-ng-model="main.questionNumber" data-ng-change="main.updateQuestion()" /> / {{main.totalQuestions}}
     </span>
 
     <span class="next-container">
-      <button class="cg-button" type="button" data-ng-click="main.next()">Next</button>
+      <button class="cg-button" type="button" data-ng-click="main.next()" data-ng-disabled="!main.canGoNext()">Next</button>
     </span>
   </div>
 
-  <div class="question-group" data-ng-repeat="row in main.data">
+  <div class="question-group">
     <div class="row-section">
-      <div class="question-label">Question:</div>
+      <div class="question-label">Question #{{main.getTrueQuestionNumber()}}:</div>
       <div class="question">
-        {{::row.question}}
+        {{main.current.question}}
       </div>
     </div>
     <div class="row-section">
       <div class="answer-label">Answer:</div>
       <div class="answer">
-        <textarea data-ng-model="row.answer"></textarea>
+        <textarea data-ng-model="main.current.answer"></textarea>
       </div>
     </div>
     <div class="row-section">
       <div class="finding-label">Finding:</div>
       <div class="finding">
-        <textarea data-ng-model="row.finding"></textarea>
+        <textarea data-ng-model="main.current.finding"></textarea>
       </div>
     </div>
     <div class="row-section">
       <div class="status-label">Status:</div>
       <div class="status">
-        <textarea data-ng-model="row.status"></textarea>
+        <textarea data-ng-model="main.current.status"></textarea>
       </div>
     </div>
   </div>
