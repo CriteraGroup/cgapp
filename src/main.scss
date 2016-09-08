@@ -15,6 +15,12 @@ html, body {
   margin: 0;
 }
 
+body {
+  * {
+    box-sizing: border-box;
+  }
+}
+
 .app-header {
   background-color: #1A237E;
   border-bottom: 2px solid #3F51B5;
@@ -67,9 +73,7 @@ header {
 }
 
 .question-group {
-  border-bottom: 2px solid $purple;
-  margin-left: 15px;
-  margin-right: 15px;
+  margin: 10px 15px;
 }
 
 .row-section {
@@ -94,7 +98,7 @@ header {
   @include container;
 
   background-color: #5C6BC0;
-  border-bottom: 2px solid #1A237E;
+  border-bottom: 2px solid $purple;
   color: $white;
   line-height: 60px;
   height: 60px;
@@ -110,6 +114,10 @@ header {
     @include span(4 at 5);
 
     height: 60px;
+
+    input {
+      width: 25px;
+    }
   }
 
   .next-container {

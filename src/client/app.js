@@ -23,10 +23,14 @@ function createMainController(ipc, store) {
   main.save = save;
   main.updateQuestion = updateQuestion;
 
+  console.log('loading store...');
   store.load().then(function(data) {
+      console.log('data: ', data);
       questions = data;
       main.current = questions[main.questionIndex];
       main.totalQuestions = questions.length;
+  }, function(error) {
+      console.log(error);
   });
 
   function canGoNext() {

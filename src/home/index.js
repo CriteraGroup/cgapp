@@ -1,7 +1,3 @@
-var loadXLSX = require('./load.js').loadXLSX;
-
-loadXLSX('data.xlsx');
-
 module.exports.CGApp = (function() {
   let App, BrowserWindow, shortcut, win;
 
