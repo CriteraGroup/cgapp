@@ -39,8 +39,14 @@ html, body {
   height: 40px;
 
   &:hover {
-    cursor: pointer;
     background: #304FFE;
+    cursor: pointer;
+  }
+
+  &:disabled {
+    background: #304FFE;
+    cursor: default;
+    opacity: .5;
   }
 }
 
@@ -72,6 +78,7 @@ header {
 }
 
 .question, .answer, .finding, .status {
+  font-weight: 300;
   textarea {
     height: 75px;
     width: 100%;

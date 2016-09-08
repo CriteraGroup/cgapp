@@ -9,23 +9,67 @@ app.run(run);
 
 createMainController.$inject = ['ipc', 'store'];
 function createMainController(ipc, store) {
-  var main = this;
+  var main = this,
+    questions;
 
+  main.canGoNext = canGoNext;
+  main.canGoPrevious = canGoPrevious;
   main.exit = exit;
+  main.getTrueQuestionNumber = getTrueQuestionNumber;
+  main.next = next;
+  main.previous = previous;
+  main.questionIndex = 0;
+  main.questionNumber = 1;
   main.save = save;
+  main.updateQuestion = updateQuestion;
 
   store.load().then(function(data) {
-    main.data = data;
+      questions = data;
+      main.current = questions[main.questionIndex];
+      main.totalQuestions = questions.length;
   });
 
+  function canGoNext() {
+      return main.questionIndex < (main.totalQuestions - 1);
+  }
+
+  function canGoPrevious() {
+      return main.questionIndex > 0;
+  }
+
   function exit() {
-    console.log('Sending exit event');
     ipc.send('exit');
   }
 
+  function getTrueQuestionNumber() {
+      return main.questionIndex + 1;
+  }
+
+  function next() {
+      if(canGoNext()) {
+          main.questionIndex++;
+          main.questionNumber++;
+          main.current = questions[main.questionIndex];
+      }
+  }
+
+  function previous() {
+      if(canGoPrevious()) {
+          main.questionIndex--;
+          main.questionNumber--;
+          main.current = questions[main.questionIndex];
+      }
+  }
+
   function save() {
-    console.log(main.data);
-    ipc.send('save', main.data);
+    ipc.send('save', questions);
+  }
+
+  function updateQuestion() {
+      if(main.questionNumber > 0 && main.questionNumber <= main.totalQuestions) {
+          main.questionIndex = (parseInt(main.questionNumber) - 1);
+          main.current = questions[main.questionIndex];
+      }
   }
 }
 

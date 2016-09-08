@@ -26,8 +26,12 @@ html, body {
   font-weight: 100;
   height: 40px; }
   .cg-button:hover {
-    cursor: pointer;
-    background: #304FFE; }
+    background: #304FFE;
+    cursor: pointer; }
+  .cg-button:disabled {
+    background: #304FFE;
+    cursor: default;
+    opacity: .5; }
 
 header .cg-button {
   position: absolute;
@@ -49,13 +53,14 @@ header .cg-button {
   box-sizing: border-box;
   margin-bottom: 15px; }
 
-.question textarea, .answer textarea, .finding textarea, .status textarea {
-  height: 75px;
-  width: 100%; }
-
-.question-label, .answer-label, .finding-label, .status-label {
-  font-size: 18px;
-  font-weight: 500; }
+.question, .answer, .finding, .status {
+  font-weight: 300; }
+  .question textarea, .answer textarea, .finding textarea, .status textarea {
+    height: 75px;
+    width: 100%; }
+  .question-label, .answer-label, .finding-label, .status-label {
+    font-size: 18px;
+    font-weight: 500; }
 
 .controls {
   max-width: 100%;
