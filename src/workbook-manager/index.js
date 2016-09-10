@@ -17,10 +17,7 @@ for(var i = 0; i < numberOfRows; i++) {
   }
 }
 
-wb.xlsx.writeFile('./output.xlsx')
-.then(function() {
-  console.log('Arguments: ', arguments);
-});
+wb.xlsx.writeFile('./output.xlsx');
 
 /*
   // write to a file

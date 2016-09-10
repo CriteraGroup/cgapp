@@ -14,24 +14,39 @@ ipc.on('bodyLoaded', function(event) {
 });
 
 ipc.on('save', function(event, rows) {
-  var workbook = new Excel.Workbook();
-  var sheet = workbook.addWorksheet('Sheet 1');
+  var sheet,
+    workbook = new Excel.Workbook();
 
+  workbook.creator = 'KWarnock';
+  workbook.lastModifiedBy = 'Them';
+  workbook.created = new Date(1985, 8, 30);
+  workbook.modified = new Date();
+
+  sheet = workbook.addWorksheet('Dataset');
+  
   sheet.columns = [
-    { header: 'section', key: 'section', width: 10 },
-    { header: 'question', key: 'question', width: 32 },
-    { header: 'answer', key: 'answer', width: 10 },
-    { header: 'finding', key: 'finding', width: 10 },
+    { header: 'domain', key: 'domain', width: 10 },
+    { header: 'objective', key: 'objective', width: 10 },
+    { header: 'policy derived', key: 'policy derived', width: 10 },
+    { header: 'reason', key: 'reason', width: 10 },
+    { header: 'question', key: 'question', width: 10 },
+    { header: 'customer response', key: 'customer response', width: 10 },
+    { header: 'auditor notes', key: 'auditor notes', width: 10 },
+    { header: 'policy defined', key: 'policy defined', width: 10 },
+    { header: 'control implemented', key: 'control implemented', width: 10 },
+    { header: 'control automated or technically enforced', key: 'control automated or technically enforced', width: 10 },
+    { header: 'control reported to business', key: 'control reported to business', width: 10 },
     { header: 'status', key: 'status', width: 10 }
   ];
 
   rows.forEach(function loopRows(row) {
       sheet.addRow({
-        section: row.section,
-        question: row.question,
-        answer: row.answer,
-        finding: row.finding,
-        status: row.status
+        'domain': row.domain,
+        'objective': row.section,
+        'question': row.question,
+        'customer response': row['customer response'],
+        'auditor notes': row['auditor notes'],
+        'status': typeof row.status !== "undefined" ? row.status.text : null
       });
   });
 

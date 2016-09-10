@@ -1,6 +1,13 @@
 var ipcRenderer = require('electron').ipcRenderer;
 var app = angular.module('cgapp', []);
 
+var automationStatusValues = require('../../resources/automation-status.json');
+var implementationStatusValues = require('../../resources/implementation-status.json');
+var policyStatusValues = require('../../resources/policy-status.json');
+var reportingStatusValues = require('../../resources/reporting-status.json');
+var statusOptions = require('../../resources/status-options.json');
+var domains = require('../../resources/domain-list.json');
+
 app.value('ipc', ipcRenderer);
 app.controller('mainController', createMainController);
 app.factory('messenger', createMessenger);
@@ -9,8 +16,14 @@ app.run(run);
 
 createMainController.$inject = ['ipc', 'store'];
 function createMainController(ipc, store) {
-  var main = this,
+  var indexTracker, 
+    main,
+    parsedData,
+    previousQuestion,
     questions;
+
+  indexTracker = Object.create(null);
+  main = this;
 
   main.canGoNext = canGoNext;
   main.canGoPrevious = canGoPrevious;
@@ -21,16 +34,27 @@ function createMainController(ipc, store) {
   main.questionIndex = 0;
   main.questionNumber = 1;
   main.save = save;
+  main.statusOptions = statusOptions;
+  
+  main.domainIndex = 0;
+  main.domainQuestionNumber = 1;
+  
+  main.totalIndex = 0;
+  main.totalQuestionNumber = 1;
+  
   main.updateQuestion = updateQuestion;
 
-  console.log('loading store...');
   store.load().then(function(data) {
-      console.log('data: ', data);
-      questions = data;
-      main.current = questions[main.questionIndex];
-      main.totalQuestions = questions.length;
-  }, function(error) {
-      console.log(error);
+    parsedData = parseDataIntoDomains(data);
+
+    console.log("parsed data: ", parsedData);
+
+    main.currentDomain = domains[0];
+    questions = data;
+    main.current = questions[main.questionIndex];
+    main.totalQuestions = questions.length;
+    main.domainIndex = indexTracker[main.currentDomain].index;
+    main.domainTotal = indexTracker[main.currentDomain].total;
   });
 
   function canGoNext() {
@@ -51,17 +75,44 @@ function createMainController(ipc, store) {
 
   function next() {
       if(canGoNext()) {
-          main.questionIndex++;
+          previousQuestion = main.current;
           main.questionNumber++;
-          main.current = questions[main.questionIndex];
+          updateQuestion(1);
       }
+  }
+
+  function parseDataIntoDomains(data) {
+    var newDataset, domain, i, j, numberOfDomains, size;
+
+    newDataset = Object.create(null);
+    numberOfDomains = domains.length;
+    size = data.length;
+
+    for(i = 0; i < numberOfDomains; i++) {
+      domain = domains[i];
+      newDataset[domain] = [];
+
+      for(j = 0; j < size; j++) {
+        if(domain === data[j].domain) {
+          newDataset[domain].push(data[j]);
+        }
+      }
+
+      indexTracker[domain] = Object.create(null); // Create hash map.
+      indexTracker[domain].index = 1; // Set index to 1 intially.
+      indexTracker[domain].total = newDataset[domain].length; // Set threshold.
+    }
+
+    console.log('index tracker: ', indexTracker);
+
+    return newDataset;
   }
 
   function previous() {
       if(canGoPrevious()) {
-          main.questionIndex--;
+          previousQuestion = main.current;
           main.questionNumber--;
-          main.current = questions[main.questionIndex];
+          updateQuestion(-1);
       }
   }
 
@@ -69,11 +120,43 @@ function createMainController(ipc, store) {
     ipc.send('save', questions);
   }
 
-  function updateQuestion() {
+  function updateQuestion(adjustment) {
       if(main.questionNumber > 0 && main.questionNumber <= main.totalQuestions) {
           main.questionIndex = (parseInt(main.questionNumber) - 1);
+          main.totalIndex = (parseInt(main.questionNumber) - 1);
           main.current = questions[main.questionIndex];
+          main.currentDomain = main.current.domain;
+
+          setDomainIndex();
+
+          main.domainIndex = indexTracker[main.current.domain].index; // Set domain index to the current domain index
+          main.domainTotal = indexTracker[main.current.domain].total; // Set domain total to the current domain total
+
+          console.log('Domain index: ', main.domainIndex);
+          console.log('Domain total: ', main.domainTotal);
+
+          function adjust() {
+            return adjustment === 1 ? indexTracker[main.current.domain].index++ : indexTracker[main.current.domain].index--;
+          }
       }
+  }
+
+  function setDomainIndex() {
+    var currentDomain, domain, totalIndex;
+
+    totalIndex = main.totalIndex + 1;
+
+    for(domain in indexTracker) {
+      currentDomain = indexTracker[domain];
+
+      if(totalIndex > currentDomain.total) {
+        currentDomain.index = currentDomain.total;
+        totalIndex = totalIndex - currentDomain.total;
+      } else {
+        currentDomain.index = totalIndex;
+        break;
+      }
+    }
   }
 }
 
