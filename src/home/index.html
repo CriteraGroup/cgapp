@@ -9,6 +9,20 @@
   <link rel="stylesheet" href="../messenger/messenger.css">
 </head>
 <body ng-controller="mainController as main">
+  <!--
+    { header: 'domain', key: 'domain', width: 10 },
+    { header: 'objective', key: 'objective', width: 10 },
+    { header: 'policy derived', key: 'policy derived', width: 10 },
+    { header: 'reason', key: 'reason', width: 10 },
+    { header: 'question', key: 'question', width: 10 },
+    { header: 'customer response', key: 'customer response', width: 10 },
+    { header: 'auditor notes', key: 'auditor notes', width: 10 },
+    { header: 'policy defined', key: 'policy defined', width: 10 },
+    { header: 'control implemented', key: 'control implemented', width: 10 },
+    { header: 'control automated or technically enforced', key: 'control automated or technically enforced', width: 10 },
+    { header: 'control reported to business', key: 'control reported to business', width: 10 },
+    { header: 'status', key: 'status', width: 10 }
+  -->
   <header class="app-header">
     Critera Group
     <button class="cg-button exit" data-ng-click="main.exit()">Exit</button>
@@ -20,7 +34,12 @@
     </span>
 
     <span class="progress-container">
-      <input data-ng-model="main.questionNumber" data-ng-change="main.updateQuestion()" /> / {{main.totalQuestions}}
+      <span class="total-progress-indicator">
+        <input data-ng-model="main.questionNumber" data-ng-change="main.updateQuestion()" /> / {{main.totalQuestions}}
+      </span>
+      <span class="domain-progress-indicator">
+        {{main.currentDomain}} : {{main.domainIndex}} of {{main.domainTotal}}
+      </span>
     </span>
 
     <span class="next-container">
@@ -30,27 +49,35 @@
 
   <div class="question-group">
     <div class="row-section">
+      <span class="domain-label">Domain: </span> 
+      <span class="domain">{{main.current.domain}}</span>
+    </div>
+    <div class="row-section">
+      <span class="objective-label">Objective: </span> 
+      <span class="objective">{{main.current.objective}}</span>
+    </div>
+    <div class="row-section">
       <div class="question-label">Question #{{main.getTrueQuestionNumber()}}:</div>
       <div class="question">
         {{main.current.question}}
       </div>
     </div>
     <div class="row-section">
-      <div class="answer-label">Answer:</div>
+      <div class="answer-label">Customer Response:</div>
       <div class="answer">
-        <textarea data-ng-model="main.current.answer"></textarea>
+        <textarea data-ng-model="main.current['customer response']"></textarea>
       </div>
     </div>
     <div class="row-section">
-      <div class="finding-label">Finding:</div>
+      <div class="finding-label">Auditor Notes:</div>
       <div class="finding">
-        <textarea data-ng-model="main.current.finding"></textarea>
+        <textarea data-ng-model="main.current['auditor notes']"></textarea>
       </div>
     </div>
     <div class="row-section">
       <div class="status-label">Status:</div>
       <div class="status">
-        <textarea data-ng-model="main.current.status"></textarea>
+        <select data-ng-options="status.text for status in main.statusOptions" data-ng-model="main.current.status"></select>
       </div>
     </div>
   </div>

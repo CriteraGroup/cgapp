@@ -54,12 +54,13 @@ header .cg-button {
   box-sizing: border-box;
   margin-bottom: 15px; }
 
-.question, .answer, .finding, .status {
+.question, .answer, .finding, .status, .domain, .objective {
+  font-family: monospace;
   font-weight: 300; }
-  .question textarea, .answer textarea, .finding textarea, .status textarea {
+  .question textarea, .answer textarea, .finding textarea, .status textarea, .domain textarea, .objective textarea {
     height: 75px;
     width: 100%; }
-  .question-label, .answer-label, .finding-label, .status-label {
+  .question-label, .answer-label, .finding-label, .status-label, .domain-label, .objective-label {
     font-size: 18px;
     font-weight: 500; }
 
@@ -83,12 +84,33 @@ header .cg-button {
     margin-right: 1.69492%;
     height: 60px; }
   .controls .progress-container {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
     width: 32.20339%;
     float: left;
     margin-right: 1.69492%;
     height: 60px; }
+    .controls .progress-container:after {
+      content: " ";
+      display: block;
+      clear: both; }
     .controls .progress-container input {
       width: 25px; }
+    .controls .progress-container .total-progress-indicator {
+      width: 100%;
+      float: left;
+      margin-left: 0;
+      margin-right: 0;
+      line-height: 30px;
+      height: 30px; }
+    .controls .progress-container .domain-progress-indicator {
+      width: 100%;
+      float: left;
+      margin-left: 0;
+      margin-right: 0;
+      line-height: 30px;
+      height: 30px; }
   .controls .next-container {
     width: 32.20339%;
     float: right;
