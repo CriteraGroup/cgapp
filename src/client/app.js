@@ -3,10 +3,11 @@ var app = angular.module('cgapp', []);
 
 var automationStatusValues = require('../../resources/automation-status.json');
 var implementationStatusValues = require('../../resources/implementation-status.json');
-var policyStatusValues = require('../../resources/policy-status.json');
+var policyDefinedValues = require('../../resources/policy-defined.json');
 var reportingStatusValues = require('../../resources/reporting-status.json');
 var statusOptions = require('../../resources/status-options.json');
 var domains = require('../../resources/domain-list.json');
+var answers = require('../../resources/answer-list.json');
 
 app.value('ipc', ipcRenderer);
 app.controller('mainController', createMainController);
@@ -30,6 +31,7 @@ function createMainController(ipc, store) {
   main.exit = exit;
   main.getTrueQuestionNumber = getTrueQuestionNumber;
   main.next = next;
+  main.policyDefined = policyDefinedValues;
   main.previous = previous;
   main.questionIndex = 0;
   main.questionNumber = 1;
@@ -47,10 +49,11 @@ function createMainController(ipc, store) {
   store.load().then(function(data) {
     parsedData = parseDataIntoDomains(data);
 
-    console.log("parsed data: ", parsedData);
-
     main.currentDomain = domains[0];
     questions = data;
+
+    console.log('Data: ', parsedData);
+
     main.current = questions[main.questionIndex];
     main.totalQuestions = questions.length;
     main.domainIndex = indexTracker[main.currentDomain].index;
@@ -103,8 +106,6 @@ function createMainController(ipc, store) {
       indexTracker[domain].total = newDataset[domain].length; // Set threshold.
     }
 
-    console.log('index tracker: ', indexTracker);
-
     return newDataset;
   }
 
@@ -132,8 +133,7 @@ function createMainController(ipc, store) {
           main.domainIndex = indexTracker[main.current.domain].index; // Set domain index to the current domain index
           main.domainTotal = indexTracker[main.current.domain].total; // Set domain total to the current domain total
 
-          console.log('Domain index: ', main.domainIndex);
-          console.log('Domain total: ', main.domainTotal);
+          save();
 
           function adjust() {
             return adjustment === 1 ? indexTracker[main.current.domain].index++ : indexTracker[main.current.domain].index--;

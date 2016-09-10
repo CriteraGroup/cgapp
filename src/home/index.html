@@ -80,6 +80,12 @@
         <select data-ng-options="status.text for status in main.statusOptions" data-ng-model="main.current.status"></select>
       </div>
     </div>
+    <div class="row-section">
+      <div class="policy-defined-label">Policy Defined:</div>
+      <div class="policy-defined">
+        <select data-ng-options="policy.text for policy in main.policyDefined" data-ng-model="main.current['policy defined']"></select>
+      </div>
+    </div>
   </div>
 </body>
 </html>
