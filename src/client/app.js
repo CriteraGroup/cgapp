@@ -1,5 +1,5 @@
 var ipcRenderer = require('electron').ipcRenderer;
-var app = angular.module('cgapp', []);
+var app = angular.module('cgapp', ['ngSanitize']);
 
 var automationStatusValues = require('../../resources/automation-status.json');
 var implementationStatusValues = require('../../resources/implementation-status.json');
@@ -8,6 +8,20 @@ var reportingStatusValues = require('../../resources/reporting-status.json');
 var statusOptions = require('../../resources/status-options.json');
 var domains = require('../../resources/domain-list.json');
 var answers = require('../../resources/answer-list.json');
+
+const DOMAIN = 'domain';
+const OBJECTIVE = 'objective';
+const SOURCE = 'source';
+const REASON = 'reason';
+const QUESTION = 'question';
+const CUSTOMER_RESPONSE = 'customer response';
+const AUDITOR_NOTES = 'auditor notes';
+const ANSWER = 'answer';
+const POLICY_DEFINED = 'policy defined';
+const CONTROL_IMPLEMENTED = 'control implemented';
+const CONTROL_AUTOMATED = 'control automated or technically enforced';
+const CONTROL_REPORTED = 'control reported to business';
+const STATUS = 'status';
 
 app.value('ipc', ipcRenderer);
 app.controller('mainController', createMainController);
@@ -26,15 +40,19 @@ function createMainController(ipc, store) {
   indexTracker = Object.create(null);
   main = this;
 
+  main.answers = answers; // TODO: Need dropdown
+  main.automation = automationStatusValues; // TODO: Need dropdown
   main.canGoNext = canGoNext;
   main.canGoPrevious = canGoPrevious;
   main.exit = exit;
   main.getTrueQuestionNumber = getTrueQuestionNumber;
+  main.implementation = implementationStatusValues; // Need dropdown
   main.next = next;
   main.policyDefined = policyDefinedValues;
   main.previous = previous;
   main.questionIndex = 0;
   main.questionNumber = 1;
+  main.reporting = reportingStatusValues; // TODO: Need dropdown
   main.save = save;
   main.statusOptions = statusOptions;
   
@@ -84,12 +102,37 @@ function createMainController(ipc, store) {
       }
   }
 
+  function getMatch(id, data) {
+    var i, size;
+
+    if(typeof id === 'undefined') { return; }
+
+    size = data.length;
+
+    for(i = 0; i < size; i++) {
+      if(data[i].id == id) {
+        return data[i];
+      }
+    }
+  }
+
   function parseDataIntoDomains(data) {
     var newDataset, domain, i, j, numberOfDomains, size;
 
     newDataset = Object.create(null);
     numberOfDomains = domains.length;
     size = data.length;
+
+    debugger;
+
+    for(j = 0; j < size; j++) {
+      data[j][ANSWER] = getMatch(data[j][ANSWER], answers);
+      data[j][POLICY_DEFINED] = getMatch(data[j][POLICY_DEFINED], policyDefinedValues);
+      data[j][CONTROL_IMPLEMENTED] = getMatch(data[j][CONTROL_IMPLEMENTED], implementationStatusValues);
+      data[j][CONTROL_AUTOMATED] = getMatch(data[j][CONTROL_AUTOMATED], automationStatusValues);
+      data[j][CONTROL_REPORTED] = getMatch(data[j][CONTROL_REPORTED], reportingStatusValues);
+      data[j][STATUS] = getMatch(data[j][STATUS], statusOptions);
+    }
 
     for(i = 0; i < numberOfDomains; i++) {
       domain = domains[i];
