@@ -73,15 +73,29 @@ header {
 }
 
 .question-group {
-  margin: 10px 15px;
+  @include container;
+  @include span(10 at 3);
+
+  padding: 15px 15px 15px 0; 
 }
 
 .row-section {
+  @include container;
+  @include span(12);
+
   box-sizing: border-box;
   margin-bottom: 15px;
+
+  &.customer-response-row {
+    @include span(6);
+  }
+
+  &.auditor-notes-row {
+    @include span(6 at 7);
+  }
 }
 
-.question, .answer, .finding, .status, .domain, .objective {
+.question, .answer, .finding, .status, .domain, .objective, .reason, .source, .customer-response, .auditor-notes {
   font-family: monospace;
   font-weight: 300;
 
@@ -102,19 +116,20 @@ header {
   background-color: #5C6BC0;
   border-bottom: 2px solid $purple;
   color: $white;
+  font-size: 14px;
   line-height: 60px;
   height: 60px;
   text-align: center;
 
   .previous-container {
-    @include span(4);
+    @include span(3);
 
     height: 60px;
   }
 
   .progress-container {
     @include container;
-    @include span(4 at 5);
+    @include span(6 at 4);
 
     height: 60px;
 
@@ -137,12 +152,38 @@ header {
   }
 
   .next-container {
-    @include span(4 at 9);
+    @include span(3 at 10);
 
     height: 60px;
   }
 
   .cg-button {
     width: 100px;
+  }
+}
+
+.nav-menu {
+  @include container;
+  @include span(2);
+
+  font-weight: 400;
+  font-size: 12px;
+
+  .nav-item {
+    @include container;
+    @include span(12);
+
+    border-bottom: 2px solid $purple;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    padding: 10px;
+
+    transition: all .3s ease-out;
+
+    &:hover {
+      background-color: $purple;
+      color: $white;
+      cursor: pointer;
+    }
   }
 }
