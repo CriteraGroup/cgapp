@@ -57,12 +57,12 @@ ipc.on('save', function(event, rows) {
         'question': row[QUESTION],
         'customer response': row[CUSTOMER_RESPONSE],
         'auditor notes': row[AUDITOR_NOTES],
-        'answer': row[ANSWER],
-        'policy defined': typeof row[POLICY_DEFINED] !== 'undefined' ? row[POLICY_DEFINED].text : null,
-        'control implemented': row[CONTROL_IMPLEMENTED],
-        'control automated or technically enforced': row[CONTROL_AUTOMATED],
-        'control reported to business': row[CONTROL_REPORTED],
-        'status': typeof row[STATUS] !== 'undefined' ? row[STATUS].text : null 
+        'answer': typeof row[ANSWER] !== 'undefined' ? row[ANSWER].id : null,
+        'policy defined': typeof row[POLICY_DEFINED] !== 'undefined' ? row[POLICY_DEFINED].id : null,
+        'control implemented': typeof row[CONTROL_IMPLEMENTED] !== 'undefined' ? row[CONTROL_IMPLEMENTED].id : null,
+        'control automated or technically enforced': typeof row[CONTROL_AUTOMATED] !== 'undefined' ? row[CONTROL_AUTOMATED].id : null,
+        'control reported to business': typeof row[CONTROL_REPORTED] !== 'undefined' ? row[CONTROL_REPORTED].id : null,
+        'status': typeof row[STATUS] !== 'undefined' ? row[STATUS].id : null 
       });
   });
 

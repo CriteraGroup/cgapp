@@ -4,25 +4,12 @@
   <meta charset="UTF-8">
   <title>Critera Group</title>
   <script type="text/javascript" src="../../node_modules/angular/angular.min.js"></script>
+  <script type="text/javascript" src="../../node_modules/angular-sanitize/angular-sanitize.min.js"></script>
   <script type="text/javascript" src="../client/app.js"></script>
   <link rel="stylesheet" href="../styles/main.css">
   <link rel="stylesheet" href="../messenger/messenger.css">
 </head>
 <body ng-controller="mainController as main">
-  <!--
-    { header: 'domain', key: 'domain', width: 10 },
-    { header: 'objective', key: 'objective', width: 10 },
-    { header: 'policy derived', key: 'policy derived', width: 10 },
-    { header: 'reason', key: 'reason', width: 10 },
-    { header: 'question', key: 'question', width: 10 },
-    { header: 'customer response', key: 'customer response', width: 10 },
-    { header: 'auditor notes', key: 'auditor notes', width: 10 },
-    { header: 'policy defined', key: 'policy defined', width: 10 },
-    { header: 'control implemented', key: 'control implemented', width: 10 },
-    { header: 'control automated or technically enforced', key: 'control automated or technically enforced', width: 10 },
-    { header: 'control reported to business', key: 'control reported to business', width: 10 },
-    { header: 'status', key: 'status', width: 10 }
-  -->
   <header class="app-header">
     Critera Group
     <button class="cg-button exit" data-ng-click="main.exit()">Exit</button>
@@ -50,17 +37,15 @@
   <div class="question-group">
     <div class="row-section">
       <span class="domain-label">Domain: </span> 
-      <span class="domain">{{main.current.domain}}</span>
+      <span class="domain" data-ng-bind-html="main.current.domain"></span>
     </div>
     <div class="row-section">
       <span class="objective-label">Objective: </span> 
-      <span class="objective">{{main.current.objective}}</span>
+      <span class="objective" data-ng-bind-html="main.current.objective"></span>
     </div>
     <div class="row-section">
       <div class="question-label">Question #{{main.getTrueQuestionNumber()}}:</div>
-      <div class="question">
-        {{main.current.question}}
-      </div>
+      <div class="question" data-ng-bind-html="main.current.question"></div>
     </div>
     <div class="row-section">
       <div class="answer-label">Customer Response:</div>
@@ -77,13 +62,37 @@
     <div class="row-section">
       <div class="status-label">Status:</div>
       <div class="status">
-        <select data-ng-options="status.text for status in main.statusOptions" data-ng-model="main.current.status"></select>
+        <select data-ng-options="status.text for status in main.statusOptions track by status.id" data-ng-model="main.current.status"></select>
       </div>
     </div>
     <div class="row-section">
       <div class="policy-defined-label">Policy Defined:</div>
       <div class="policy-defined">
-        <select data-ng-options="policy.text for policy in main.policyDefined" data-ng-model="main.current['policy defined']"></select>
+        <select data-ng-options="policy.text for policy in main.policyDefined track by policy.id" data-ng-model="main.current['policy defined']"></select>
+      </div>
+    </div>
+    <div class="row-section">
+      <div class="answers-label">Answers:</div>
+      <div class="answers">
+        <select data-ng-options="answer.text for answer in main.answers track by answer.id" data-ng-model="main.current.answer"></select>
+      </div>
+    </div>
+    <div class="row-section">
+      <div class="automation-label">Automation:</div>
+      <div class="automation">
+        <select data-ng-options="automationOption.text for automationOption in main.automation track by automationOption.id" data-ng-model="main.current['control automated or technically enforced']"></select>
+      </div>
+    </div>
+    <div class="row-section">
+      <div class="implementation-label">Implementation:</div>
+      <div class="implementation">
+        <select data-ng-options="implementationOption.text for implementationOption in main.implementation track by implementationOption.id" data-ng-model="main.current['control implemented']"></select>
+      </div>
+    </div>
+    <div class="row-section">
+      <div class="reporting-label">Reporting:</div>
+      <div class="reporting">
+        <select data-ng-options="reportingOption.text for reportingOption in main.reporting track by reportingOption.id" data-ng-model="main.current['control reported to business']"></select>
       </div>
     </div>
   </div>

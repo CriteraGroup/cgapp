@@ -1,5 +1,5 @@
 [
-    { "text": "Non Compliant" }, 
-    { "text": "Partially Compliant" },
-    { "text": "Compliant" }
+    { "id": 0, "text": "Non Compliant" }, 
+    { "id": 1, "text": "Partially Compliant" },
+    { "id": 2, "text": "Compliant" }
 ]

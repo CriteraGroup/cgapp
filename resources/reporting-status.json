@@ -1,8 +1,8 @@
 [
-    { "text": "Not Reported" },
-    { "text": "Parts of Policy Reported" },
-    { "text": "Reported on Some Systems" },
-    { "text": "Reported on Most Systems" },
-    { "text": "Reported on All Systems" },
-    { "text": "Not Applicable" }
+    { "id": 0, "text": "Not Reported" },
+    { "id": 1, "text": "Parts of Policy Reported" },
+    { "id": 2, "text": "Reported on Some Systems" },
+    { "id": 3, "text": "Reported on Most Systems" },
+    { "id": 4, "text": "Reported on All Systems" },
+    { "id": 5, "text": "Not Applicable" }
 ]

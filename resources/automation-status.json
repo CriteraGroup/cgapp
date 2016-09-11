@@ -1,8 +1,8 @@
 [
-    { "text": "Not Automated" },
-    { "text": "Parts of Policy Automated" },
-    { "text": "Automated on Some Systems" },
-    { "text": "Automated on Most Systems" },
-    { "text": "Automated on All Systems" },
-    { "text": "Not Applicable" }
+    { "id": 0, "text": "Not Automated" },
+    { "id": 1, "text": "Parts of Policy Automated" },
+    { "id": 2, "text": "Automated on Some Systems" },
+    { "id": 3, "text": "Automated on Most Systems" },
+    { "id": 4, "text": "Automated on All Systems" },
+    { "id": 5, "text": "Not Applicable" }
 ]
