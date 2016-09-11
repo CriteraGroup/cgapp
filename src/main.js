@@ -22,7 +22,7 @@ let ipc = require('electron').ipcMain;
 
 ipc.on('bodyLoaded', function(event) {
   loadXLSX('data.xlsx', function sendBackData(data) {
-    event.sender.send('bodyLoadedReply', data)
+    event.sender.send('bodyLoadedReply', data);
   });
 });
 
