@@ -11,6 +11,7 @@ var answers = require('../../resources/answer-list.json');
 
 const DOMAIN = 'domain';
 const OBJECTIVE = 'objective';
+const SECTION = 'section';
 const SOURCE = 'source';
 const REASON = 'reason';
 const QUESTION = 'question';

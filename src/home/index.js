@@ -21,6 +21,7 @@ module.exports.CGApp = (function() {
       win = new BrowserWindow({
         height: HEIGHT,
         show: false,
+        // frame: false,
         width: WIDTH
       });
 
@@ -43,7 +44,7 @@ module.exports.CGApp = (function() {
 
     function _onReadyToShow() {
       win.show();
-    //   win.setFullScreen(true);
+      // win.setFullScreen(true);
     }
   }
 

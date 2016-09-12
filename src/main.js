@@ -5,6 +5,7 @@ const Excel = require('exceljs');
 
 const DOMAIN = 'domain';
 const OBJECTIVE = 'objective';
+const SECTION = 'section';
 const SOURCE = 'source';
 const REASON = 'reason';
 const QUESTION = 'question';
@@ -35,6 +36,7 @@ ipc.on('save', function(event, rows) {
   sheet.columns = [
     { header: DOMAIN, key: DOMAIN, width: 10 },
     { header: OBJECTIVE, key: OBJECTIVE, width: 10 },
+    { header: SECTION, key: SECTION, width: 10 },
     { header: SOURCE, key: SOURCE, width: 10 },
     { header: REASON, key: REASON, width: 10 },
     { header: QUESTION, key: QUESTION, width: 10 },
@@ -52,6 +54,7 @@ ipc.on('save', function(event, rows) {
       sheet.addRow({
         'domain': row[DOMAIN],
         'objective': row[OBJECTIVE],
+        'section': row[SECTION],
         'source': row[SOURCE],
         'reason': row[REASON],
         'question': row[QUESTION],

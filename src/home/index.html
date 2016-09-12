@@ -11,9 +11,18 @@
 </head>
 <body ng-controller="mainController as main">
   <header class="app-header">
-    Critera Group
-    <button class="cg-button exit" data-ng-click="main.exit()">Exit</button>
-    <button class="cg-button save" data-ng-click="main.save()">Save</button>
+    <span class="exit-container">
+      <button class="cg-button exit" data-ng-click="main.exit()">Exit</button>
+    </span>
+    <span class="title-container">
+      <span class="title">Critera Group</span>
+      <span class="total-progress-indicator">
+        <input data-ng-model="main.questionNumber" data-ng-change="main.updateQuestion()" /> / {{main.totalQuestions}}
+      </span>
+    </span>
+    <span class="save-container">
+      <button class="cg-button save" data-ng-click="main.save()">Save</button>
+    </span>
   </header>
   <div class="controls">
     <span class="previous-container">
@@ -21,12 +30,11 @@
     </span>
 
     <span class="progress-container">
-      <span class="total-progress-indicator">
-        <input data-ng-model="main.questionNumber" data-ng-change="main.updateQuestion()" /> / {{main.totalQuestions}}
-      </span>
       <span class="domain-progress-indicator">
         {{main.currentDomain}} : {{main.domainIndex}} of {{main.domainTotal}}
       </span>
+      <span class="section-progress-indicator">{{main.current.section}}</span>
+      <span class="objective-progress-indicator">{{main.current.objective}}</span>
     </span>
 
     <span class="next-container">
@@ -36,21 +44,13 @@
 
   <span class="content-container">
     <span class="question-group">
-      <span class="row-section">
-        <span class="source-label">Source: </span> 
-        <span class="source" data-ng-bind-html="main.current.source"></span>
-      </span>
-      <span class="row-section">
+      <!--<span class="row-section">
         <span class="objective-label">Objective: </span> 
         <span class="objective" data-ng-bind-html="main.current.objective"></span>
-      </span>
+      </span>-->
       <span class="row-section">
         <span class="question-label">Question #{{main.domainIndex}}:</span>
         <span class="question" data-ng-bind-html="main.current.question"></span>
-      </span>
-      <span class="row-section">
-        <span class="reason-label">Reason: </span> 
-        <span class="reason" data-ng-bind-html="main.current.reason"></span>
       </span>
       <span class="row-section customer-response-row">
         <span class="customer-response-label">Customer Response:</span>
@@ -99,6 +99,14 @@
         <span class="reporting">
           <select data-ng-options="reportingOption.text for reportingOption in main.reporting track by reportingOption.id" data-ng-model="main.current['control reported to business']"></select>
         </span>
+      </span>
+      <span class="row-section">
+        <span class="reason-label">Background: </span> 
+        <span class="reason" data-ng-bind-html="main.current.reason"></span>
+      </span>
+      <span class="row-section">
+        <span class="source-label">Source: </span> 
+        <span class="source" data-ng-bind-html="main.current.source"></span>
       </span>
     </span>
     <span class="nav-menu">
