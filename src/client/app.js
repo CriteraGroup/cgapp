@@ -43,6 +43,7 @@ function createMainController(ipc, store) {
   main.automation = automationStatusValues; // TODO: Need dropdown
   main.canGoNext = canGoNext;
   main.canGoPrevious = canGoPrevious;
+  main.isCompliant = isCompliant;
   main.domains = domains;
   main.exit = exit;
   main.getTrueQuestionNumber = getTrueQuestionNumber;
@@ -121,6 +122,14 @@ function createMainController(ipc, store) {
         updateQuestion();
       }
     }
+  }
+
+  function isCompliant() {
+    if(typeof main.current !== 'undefined' && typeof main.current.answer !== 'undefined') {
+      return main.current.answer.id === 0 || main.current.answer.id === 5;
+    }
+
+    return false;    
   }
 
   function next() {

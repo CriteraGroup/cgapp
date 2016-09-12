@@ -100,7 +100,7 @@ body {
   @include container;
   @include span(8 at 3);
 
-  padding: 15px;
+  padding: 10px;
 }
 
 .row-section {
@@ -273,7 +273,8 @@ choice-menu {
     @include container;
     @include span(12);
 
-    padding: 5px;
+    padding: 10px;
+    padding-left: 0;
 
     choice-label {
       @include span(12);
