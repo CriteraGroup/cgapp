@@ -95,25 +95,25 @@
           <select data-ng-options="answer.text for answer in main.answers track by answer.id" data-ng-model="main.current.answer"></select>
         </span>
       </choice-item>
-      <choice-item>
+      <choice-item data-ng-show="main.isCompliant()">
         <choice-label>Policy Defined?:</choice-label>
         <span class="policy-defined">
           <select data-ng-options="policy.text for policy in main.policyDefined track by policy.id" data-ng-model="main.current['policy defined']"></select>
         </span>
       </choice-item>
-      <choice-item>
+      <choice-item data-ng-show="main.isCompliant()">
         <choice-label>Automation?:</choice-label>
         <span class="automation">
           <select data-ng-options="automationOption.text for automationOption in main.automation track by automationOption.id" data-ng-model="main.current['control automated or technically enforced']"></select>
         </span>
       </choice-item>
-      <choice-item>
+      <choice-item data-ng-show="main.isCompliant()">
         <choice-label>Implementation?:</choice-label>
         <span class="implementation">
           <select data-ng-options="implementationOption.text for implementationOption in main.implementation track by implementationOption.id" data-ng-model="main.current['control implemented']"></select>
         </span>
       </choice-item>
-      <choice-item>
+      <choice-item data-ng-show="main.isCompliant()">
         <choice-label>Reporting?:</choice-label>
         <span class="reporting">
           <select data-ng-options="reportingOption.text for reportingOption in main.reporting track by reportingOption.id" data-ng-model="main.current['control reported to business']"></select>
