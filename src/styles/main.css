@@ -20,7 +20,6 @@ body * {
   color: #E8EAF6;
   font-size: 24px;
   height: 75px;
-  line-height: 75px;
   text-align: center; }
   .app-header:after {
     content: " ";
@@ -56,9 +55,9 @@ body * {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    width: 23.72881%;
+    width: 25%;
     float: left;
-    margin-right: 1.69492%; }
+    line-height: 65px; }
     .app-header .exit-container:after {
       content: " ";
       display: block;
@@ -67,20 +66,36 @@ body * {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    width: 49.15254%;
-    float: left;
-    margin-right: 1.69492%; }
+    width: 50%;
+    float: left; }
     .app-header .title-container:after {
       content: " ";
       display: block;
       clear: both; }
+    .app-header .title-container .title {
+      width: 100%;
+      float: left;
+      margin-left: 0;
+      margin-right: 0;
+      padding-top: 5px; }
+    .app-header .title-container .total-progress-indicator {
+      width: 100%;
+      float: left;
+      margin-left: 0;
+      margin-right: 0;
+      font-size: 14px;
+      line-height: 14px;
+      padding-top: 10px; }
+      .app-header .title-container .total-progress-indicator input {
+        width: 35px; }
   .app-header .save-container {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    width: 23.72881%;
+    width: 25%;
     float: right;
-    margin-right: 0; }
+    margin-right: 0;
+    line-height: 65px; }
     .app-header .save-container:after {
       content: " ";
       display: block;
@@ -90,10 +105,9 @@ body * {
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
-  width: 83.05085%;
-  float: right;
-  margin-right: 0;
-  padding: 15px 15px 15px 0; }
+  width: 66.66667%;
+  float: left;
+  padding: 15px; }
   .question-group:after {
     content: " ";
     display: block;
@@ -114,11 +128,10 @@ body * {
     display: block;
     clear: both; }
   .row-section.customer-response-row {
-    width: 49.15254%;
-    float: left;
-    margin-right: 1.69492%; }
+    width: 50%;
+    float: left; }
   .row-section.auditor-notes-row {
-    width: 49.15254%;
+    width: 50%;
     float: right;
     margin-right: 0; }
 
@@ -132,6 +145,10 @@ body * {
     font-size: 18px;
     font-weight: 500; }
 
+.answers-label, .policy-defined-label, .automation-label, .implementation-label, .reporting-label {
+  font-weight: 400;
+  letter-spacing: 1px; }
+
 .controls {
   max-width: 100%;
   margin-left: auto;
@@ -143,9 +160,9 @@ body * {
   background-color: #5C6BC0;
   border-bottom: 2px solid #3F51B5;
   color: #fff;
-  font-size: 14px;
-  line-height: 80px;
-  height: 80px;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 1px;
   text-align: center; }
   .controls:after {
     content: " ";
@@ -155,10 +172,9 @@ body * {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    width: 23.72881%;
+    width: 25%;
     float: left;
-    margin-right: 1.69492%;
-    height: 80px; }
+    padding: 10px 0; }
     .controls .previous-container:after {
       content: " ";
       display: block;
@@ -167,52 +183,104 @@ body * {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    width: 49.15254%;
-    float: left;
-    margin-right: 1.69492%;
-    height: 80px; }
+    width: 50%;
+    float: left; }
     .controls .progress-container:after {
       content: " ";
       display: block;
       clear: both; }
     .controls .progress-container input {
       width: 25px; }
-    .controls .progress-container .total-progress-indicator {
-      width: 100%;
+    .controls .progress-container .domain-container {
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      width: 33.33333%;
       float: left;
-      margin-left: 0;
-      margin-right: 0;
-      line-height: 25px;
-      height: 25px; }
-    .controls .progress-container .domain-progress-indicator {
-      width: 100%;
+      padding: 5px 0; }
+      .controls .progress-container .domain-container:after {
+        content: " ";
+        display: block;
+        clear: both; }
+      .controls .progress-container .domain-container .domain-container-label {
+        font-size: 16px;
+        text-align: center; }
+      .controls .progress-container .domain-container .domain-progress-indicator {
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        float: left;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 5px; }
+        .controls .progress-container .domain-container .domain-progress-indicator:after {
+          content: " ";
+          display: block;
+          clear: both; }
+    .controls .progress-container .section-container {
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      width: 33.33333%;
       float: left;
-      margin-left: 0;
+      padding: 5px 0; }
+      .controls .progress-container .section-container:after {
+        content: " ";
+        display: block;
+        clear: both; }
+      .controls .progress-container .section-container .section-container-label {
+        font-size: 16px;
+        text-align: center; }
+      .controls .progress-container .section-container .section-progress-indicator {
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        float: left;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 5px; }
+        .controls .progress-container .section-container .section-progress-indicator:after {
+          content: " ";
+          display: block;
+          clear: both; }
+    .controls .progress-container .objective-container {
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      width: 33.33333%;
+      float: right;
       margin-right: 0;
-      line-height: 16px;
-      height: 16px; }
-    .controls .progress-container .section-progress-indicator {
-      width: 100%;
-      float: left;
-      margin-left: 0;
-      margin-right: 0;
-      line-height: 16px;
-      height: 16px; }
-    .controls .progress-container .objective-progress-indicator {
-      width: 100%;
-      float: left;
-      margin-left: 0;
-      margin-right: 0;
-      line-height: 16px;
-      height: 16px; }
+      padding: 5px 0; }
+      .controls .progress-container .objective-container:after {
+        content: " ";
+        display: block;
+        clear: both; }
+      .controls .progress-container .objective-container .objective-container-label {
+        font-size: 16px;
+        text-align: center; }
+      .controls .progress-container .objective-container .objective-progress-indicator {
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        float: left;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 5px; }
+        .controls .progress-container .objective-container .objective-progress-indicator:after {
+          content: " ";
+          display: block;
+          clear: both; }
   .controls .next-container {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    width: 23.72881%;
+    width: 25%;
     float: right;
     margin-right: 0;
-    height: 80px; }
+    padding: 10px 0; }
     .controls .next-container:after {
       content: " ";
       display: block;
@@ -224,11 +292,11 @@ body * {
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
-  width: 15.25424%;
+  width: 16.66667%;
   float: left;
-  margin-right: 1.69492%;
   font-weight: 400;
-  font-size: 12px; }
+  font-size: 12px;
+  letter-spacing: 1px; }
   .nav-menu:after {
     content: " ";
     display: block;
@@ -254,3 +322,37 @@ body * {
       background-color: #3F51B5;
       color: #fff;
       cursor: pointer; }
+
+choice-menu {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 16.66667%;
+  float: right;
+  margin-right: 0;
+  font-size: 12px; }
+  choice-menu:after {
+    content: " ";
+    display: block;
+    clear: both; }
+  choice-menu choice-item {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    float: left;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 5px; }
+    choice-menu choice-item:after {
+      content: " ";
+      display: block;
+      clear: both; }
+    choice-menu choice-item choice-label {
+      width: 100%;
+      float: left;
+      margin-left: 0;
+      margin-right: 0;
+      font-weight: 400;
+      letter-spacing: 1px;
+      padding-bottom: 5px; }

@@ -30,24 +30,33 @@
     </span>
 
     <span class="progress-container">
-      <span class="domain-progress-indicator">
-        {{main.currentDomain}} : {{main.domainIndex}} of {{main.domainTotal}}
+      <span class="domain-container">
+        <span class="domain-container-label">Domain ( {{main.domainIndex}} of {{main.domainTotal}} )</span>
+        <span class="domain-progress-indicator">
+          {{main.currentDomain}}
+        </span>
       </span>
-      <span class="section-progress-indicator">{{main.current.section}}</span>
-      <span class="objective-progress-indicator">{{main.current.objective}}</span>
+      <span class="section-container">
+        <span class="section-container-label">Section</span>
+        <span class="section-progress-indicator">{{main.current.section}}</span>
+      </span>
+      <span class="objective-container">
+        <span class="objective-container-label">Objective</span>
+        <span class="objective-progress-indicator">{{main.current.objective}}</span>
+      </span>
     </span>
 
     <span class="next-container">
       <button class="cg-button" type="button" data-ng-click="main.next()" data-ng-disabled="!main.canGoNext()">Next</button>
     </span>
   </div>
-
   <span class="content-container">
+    <span class="nav-menu">
+      <span class="nav-item" data-ng-repeat="domain in main.domains" data-ng-click="main.goToDomain(domain)">
+        {{domain}}
+      </span>
+    </span>
     <span class="question-group">
-      <!--<span class="row-section">
-        <span class="objective-label">Objective: </span> 
-        <span class="objective" data-ng-bind-html="main.current.objective"></span>
-      </span>-->
       <span class="row-section">
         <span class="question-label">Question #{{main.domainIndex}}:</span>
         <span class="question" data-ng-bind-html="main.current.question"></span>
@@ -71,36 +80,6 @@
         </span>
       </span>-->
       <span class="row-section">
-        <span class="answers-label">Compliant?:</span>
-        <span class="answers">
-          <select data-ng-options="answer.text for answer in main.answers track by answer.id" data-ng-model="main.current.answer"></select>
-        </span>
-      </span>
-      <span class="row-section">
-        <span class="policy-defined-label">Policy Defined:</span>
-        <span class="policy-defined">
-          <select data-ng-options="policy.text for policy in main.policyDefined track by policy.id" data-ng-model="main.current['policy defined']"></select>
-        </span>
-      </span>
-      <span class="row-section">
-        <span class="automation-label">Automation:</span>
-        <span class="automation">
-          <select data-ng-options="automationOption.text for automationOption in main.automation track by automationOption.id" data-ng-model="main.current['control automated or technically enforced']"></select>
-        </span>
-      </span>
-      <span class="row-section">
-        <span class="implementation-label">Implementation:</span>
-        <span class="implementation">
-          <select data-ng-options="implementationOption.text for implementationOption in main.implementation track by implementationOption.id" data-ng-model="main.current['control implemented']"></select>
-        </span>
-      </span>
-      <span class="row-section">
-        <span class="reporting-label">Reporting:</span>
-        <span class="reporting">
-          <select data-ng-options="reportingOption.text for reportingOption in main.reporting track by reportingOption.id" data-ng-model="main.current['control reported to business']"></select>
-        </span>
-      </span>
-      <span class="row-section">
         <span class="reason-label">Background: </span> 
         <span class="reason" data-ng-bind-html="main.current.reason"></span>
       </span>
@@ -109,11 +88,38 @@
         <span class="source" data-ng-bind-html="main.current.source"></span>
       </span>
     </span>
-    <span class="nav-menu">
-      <span class="nav-item" data-ng-repeat="domain in main.domains" data-ng-click="main.goToDomain(domain)">
-        {{domain}}
-      </span>
-    </span>
+    <choice-menu>
+      <choice-item>
+        <choice-label>Compliant?:</choice-label>
+        <span class="answers">
+          <select data-ng-options="answer.text for answer in main.answers track by answer.id" data-ng-model="main.current.answer"></select>
+        </span>
+      </choice-item>
+      <choice-item>
+        <choice-label>Policy Defined?:</choice-label>
+        <span class="policy-defined">
+          <select data-ng-options="policy.text for policy in main.policyDefined track by policy.id" data-ng-model="main.current['policy defined']"></select>
+        </span>
+      </choice-item>
+      <choice-item>
+        <choice-label>Automation?:</choice-label>
+        <span class="automation">
+          <select data-ng-options="automationOption.text for automationOption in main.automation track by automationOption.id" data-ng-model="main.current['control automated or technically enforced']"></select>
+        </span>
+      </choice-item>
+      <choice-item>
+        <choice-label>Implementation?:</choice-label>
+        <span class="implementation">
+          <select data-ng-options="implementationOption.text for implementationOption in main.implementation track by implementationOption.id" data-ng-model="main.current['control implemented']"></select>
+        </span>
+      </choice-item>
+      <choice-item>
+        <choice-label>Reporting?:</choice-label>
+        <span class="reporting">
+          <select data-ng-options="reportingOption.text for reportingOption in main.reporting track by reportingOption.id" data-ng-model="main.current['control reported to business']"></select>
+        </span>
+      </choice-item>
+    </choice-menu>
   </span>
 </body>
 </html>

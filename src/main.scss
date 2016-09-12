@@ -2,7 +2,7 @@
 
 $susy: (
   columns: 12,
-  gutters: 1/4
+  gutters: 0
 );
 
 $purple: #3F51B5;
@@ -30,7 +30,6 @@ body {
   color: #E8EAF6;
   font-size: 24px;
   height: 75px;
-  line-height: 75px;
   text-align: center;
 }
 
@@ -62,24 +61,46 @@ body {
   .exit-container {
     @include container;
     @include span(3);
+
+    line-height: 65px;
   }
 
   .title-container {
     @include container;
     @include span(6 at 4);
+
+    .title {
+      @include span(12);
+
+      padding-top: 5px;
+    }
+
+    .total-progress-indicator {
+      @include span(12);
+
+      font-size: 14px;
+      line-height: 14px;
+      padding-top: 10px;
+
+      input {
+        width: 35px;
+      }
+    }
   }
 
   .save-container {
     @include container;
     @include span(3 at 10);
+
+    line-height: 65px;
   }
 }
 
 .question-group {
   @include container;
-  @include span(10 at 3);
+  @include span(8 at 3);
 
-  padding: 15px 15px 15px 0; 
+  padding: 15px;
 }
 
 .row-section {
@@ -113,6 +134,11 @@ body {
   }
 }
 
+.answers-label, .policy-defined-label, .automation-label, .implementation-label, .reporting-label {
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
 .controls {
   @include container;
   @include span(12);
@@ -120,53 +146,81 @@ body {
   background-color: #5C6BC0;
   border-bottom: 2px solid $purple;
   color: $white;
-  font-size: 14px;
-  line-height: 80px;
-  height: 80px;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 1px;
   text-align: center;
 
   .previous-container {
     @include container;
     @include span(3);
 
-    height: 80px;
+    padding: 10px 0;
   }
 
   .progress-container {
     @include container;
     @include span(6 at 4);
 
-    height: 80px;
-
     input {
       width: 25px;
     }
 
-    .total-progress-indicator {
-      @include span(12);
-      line-height: 25px;
-      height: 25px;
+    .domain-container {
+      @include container;
+      @include span(4);
+
+      padding: 5px 0;
+
+      .domain-container-label {
+        font-size: 16px;
+        text-align: center;
+      }
+
+      .domain-progress-indicator {
+        @include container;
+        @include span(12);
+
+        padding: 5px;        
+      }
     }
 
-    .domain-progress-indicator {
-      @include span(12);
+    .section-container {
+      @include container;
+      @include span(4 at 5);
 
-      line-height: 16px;
-      height: 16px;
+      padding: 5px 0;
+
+      .section-container-label {
+        font-size: 16px;
+        text-align: center;
+      }
+
+      .section-progress-indicator {
+        @include container;
+        @include span(12);
+
+        padding: 5px;        
+      }    
     }
 
-    .section-progress-indicator {
-      @include span(12);
+    .objective-container {
+      @include container;
+      @include span(4 at 9);
 
-      line-height: 16px;
-      height: 16px;
-    }
+      padding: 5px 0;
 
-    .objective-progress-indicator {
-      @include span(12);
+      .objective-container-label {
+        font-size: 16px;
+        text-align: center;
+      }
 
-      line-height: 16px;
-      height: 16px;
+      .objective-progress-indicator {
+        @include container;
+        @include span(12);
+
+        padding: 5px;        
+      }
     }
   }
 
@@ -174,7 +228,7 @@ body {
     @include container;
     @include span(3 at 10);
 
-    height: 80px;
+    padding: 10px 0;
   }
 
   .cg-button {
@@ -188,6 +242,7 @@ body {
 
   font-weight: 400;
   font-size: 12px;
+  letter-spacing: 1px;
 
   .nav-item {
     @include container;
@@ -204,6 +259,28 @@ body {
       background-color: $purple;
       color: $white;
       cursor: pointer;
+    }
+  }
+}
+
+choice-menu {
+  @include container;
+  @include span(2 at 11);
+
+  font-size: 12px;
+
+  choice-item {
+    @include container;
+    @include span(12);
+
+    padding: 5px;
+
+    choice-label {
+      @include span(12);
+
+      font-weight: 400;
+      letter-spacing: 1px;
+      padding-bottom: 5px;
     }
   }
 }
