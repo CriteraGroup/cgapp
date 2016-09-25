@@ -12,7 +12,10 @@
 <body ng-controller="mainController as main">
   <header class="app-header">
     <span class="exit-container">
-      <button class="cg-button exit" data-ng-click="main.exit()">Exit</button>
+      <span class="exit-icon-container">
+        <img class="exit-icon" src="../icons/svg/car.svg" alt="Exit" data-ng-click="main.exit()" width="35px">
+      </span>
+      <!--<button class="cg-button exit" data-ng-click="main.exit()">Exit</button>-->
     </span>
     <span class="title-container">
       <span class="title">Critera Group</span>
@@ -20,8 +23,13 @@
         <input data-ng-model="main.questionNumber" data-ng-change="main.updateQuestion()" /> / {{main.totalQuestions}}
       </span>
     </span>
+    <!--<span class="export-container">-->
+      <!--<button class="cg-button export" data-ng-click="main.exportFile()">Export</button>-->
+    <!--</span>-->
     <span class="save-container">
-      <button class="cg-button save" data-ng-click="main.save()">Save</button>
+      <img class="export-icon" src="../icons/svg/download.svg" alt="Export" data-ng-click="main.exportFile()" width="35px">
+      <img class="save-icon" src="../icons/svg/explore.svg" alt="Save" data-ng-click="main.save()" width="35px">
+      <!--<button class="cg-button save" data-ng-click="main.save()">Save</button>-->
     </span>
   </header>
   <div class="controls">
@@ -98,25 +106,25 @@
       <choice-item data-ng-show="main.isCompliant()">
         <choice-label>Policy Defined?:</choice-label>
         <span class="policy-defined">
-          <select data-ng-options="policy.text for policy in main.policyDefined track by policy.id" data-ng-model="main.current['policy defined']"></select>
+          <select data-ng-options="policy.text for policy in main.policyDefined track by policy.id" data-ng-model="main.current['policy_defined']"></select>
         </span>
       </choice-item>
       <choice-item data-ng-show="main.isCompliant()">
         <choice-label>Automation?:</choice-label>
         <span class="automation">
-          <select data-ng-options="automationOption.text for automationOption in main.automation track by automationOption.id" data-ng-model="main.current['control automated or technically enforced']"></select>
+          <select data-ng-options="automationOption.text for automationOption in main.automation track by automationOption.id" data-ng-model="main.current['control_automated_or_technically_enforced']"></select>
         </span>
       </choice-item>
       <choice-item data-ng-show="main.isCompliant()">
         <choice-label>Implementation?:</choice-label>
         <span class="implementation">
-          <select data-ng-options="implementationOption.text for implementationOption in main.implementation track by implementationOption.id" data-ng-model="main.current['control implemented']"></select>
+          <select data-ng-options="implementationOption.text for implementationOption in main.implementation track by implementationOption.id" data-ng-model="main.current['control_implemented']"></select>
         </span>
       </choice-item>
       <choice-item data-ng-show="main.isCompliant()">
         <choice-label>Reporting?:</choice-label>
         <span class="reporting">
-          <select data-ng-options="reportingOption.text for reportingOption in main.reporting track by reportingOption.id" data-ng-model="main.current['control reported to business']"></select>
+          <select data-ng-options="reportingOption.text for reportingOption in main.reporting track by reportingOption.id" data-ng-model="main.current['control_reported_to_business']"></select>
         </span>
       </choice-item>
     </choice-menu>

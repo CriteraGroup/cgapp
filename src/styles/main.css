@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Droid Sans';
-  src: url("../fonts/DroidSans.ttf") format("truetype");
+  src: url("../fonts/Droid_Sans/DroidSans.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
 
@@ -61,7 +61,7 @@ body * {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    width: 25%;
+    width: 8.33333%;
     float: left;
     line-height: 65px; }
     .app-header .exit-container:after {
@@ -72,7 +72,7 @@ body * {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
+    width: 83.33333%;
     float: left; }
     .app-header .title-container:after {
       content: " ";
@@ -98,14 +98,28 @@ body * {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    width: 25%;
-    float: right;
-    margin-right: 0;
-    line-height: 65px; }
+    width: 8.33333%;
+    float: left; }
     .app-header .save-container:after {
       content: " ";
       display: block;
       clear: both; }
+  .app-header .exit-icon,
+  .app-header .export-icon,
+  .app-header .save-icon {
+    margin-top: 11px;
+    transform: scale(1, 1); }
+    .app-header .exit-icon:hover, .app-header .exit-icon:focus,
+    .app-header .export-icon:hover,
+    .app-header .export-icon:focus,
+    .app-header .save-icon:hover,
+    .app-header .save-icon:focus {
+      cursor: pointer;
+      transform: scale(1.1, 1.1); }
+    .app-header .exit-icon:active,
+    .app-header .export-icon:active,
+    .app-header .save-icon:active {
+      transform: scale(1, 1); }
 
 .question-group {
   max-width: 100%;

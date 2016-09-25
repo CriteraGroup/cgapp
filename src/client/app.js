@@ -15,13 +15,13 @@ const SECTION = 'section';
 const SOURCE = 'source';
 const REASON = 'reason';
 const QUESTION = 'question';
-const CUSTOMER_RESPONSE = 'customer response';
-const AUDITOR_NOTES = 'auditor notes';
+const CUSTOMER_RESPONSE = 'customer_response';
+const AUDITOR_NOTES = 'auditor_notes';
 const ANSWER = 'answer';
-const POLICY_DEFINED = 'policy defined';
-const CONTROL_IMPLEMENTED = 'control implemented';
-const CONTROL_AUTOMATED = 'control automated or technically enforced';
-const CONTROL_REPORTED = 'control reported to business';
+const POLICY_DEFINED = 'policy_defined';
+const CONTROL_IMPLEMENTED = 'control_implemented';
+const CONTROL_AUTOMATED = 'control_automated_or_technically_enforced';
+const CONTROL_REPORTED = 'control_reported_to_business';
 const STATUS = 'status';
 
 app.value('ipc', ipcRenderer);
@@ -46,6 +46,7 @@ function createMainController(ipc, store) {
   main.isCompliant = isCompliant;
   main.domains = domains;
   main.exit = exit;
+  main.exportFile = exportFile;
   main.getTrueQuestionNumber = getTrueQuestionNumber;
   main.goToDomain = goToDomain;
   main.implementation = implementationStatusValues; // Need dropdown
@@ -70,7 +71,7 @@ function createMainController(ipc, store) {
   store.load().then(function(data) {
     parsedData = parseDataIntoDomains(data);
 
-    console.log('parsedData: ', parsedData);
+    // console.log('parsedData: ', parsedData);
 
     main.currentDomain = domains[0];
     questions = data;
@@ -93,6 +94,19 @@ function createMainController(ipc, store) {
     ipc.send('exit');
   }
 
+  function exportFile() {
+    ipc.send('export', questions);
+    // Decide what file type to export
+  }
+
+  function exportCSV() {
+    // TODO: Export to CSV format
+  }
+
+  function exportXLSX() {
+    // TODO: Export to XLSX format
+  }
+
   function getMatch(id, data) {
     var i, size;
 
@@ -113,8 +127,6 @@ function createMainController(ipc, store) {
 
   function goToDomain(domainName) {
     var prop;
-
-    console.log('Domain name: ', domainName);
 
     for(prop in main.indexTracker) {
       if(domainName === prop) {
@@ -148,17 +160,6 @@ function createMainController(ipc, store) {
     size = data.length;
     startingIndex = 1;
 
-    debugger;
-
-    for(j = 0; j < size; j++) {
-      data[j][ANSWER] = getMatch(data[j][ANSWER], answers);
-      data[j][POLICY_DEFINED] = getMatch(data[j][POLICY_DEFINED], policyDefinedValues);
-      data[j][CONTROL_IMPLEMENTED] = getMatch(data[j][CONTROL_IMPLEMENTED], implementationStatusValues);
-      data[j][CONTROL_AUTOMATED] = getMatch(data[j][CONTROL_AUTOMATED], automationStatusValues);
-      data[j][CONTROL_REPORTED] = getMatch(data[j][CONTROL_REPORTED], reportingStatusValues);
-      data[j][STATUS] = getMatch(data[j][STATUS], statusOptions);
-    }
-
     for(i = 0; i < numberOfDomains; i++) {
       domain = domains[i];
       newDataset[domain] = [];
@@ -175,8 +176,6 @@ function createMainController(ipc, store) {
 
       main.indexTracker[domain].startingIndex = startingIndex;
       startingIndex += main.indexTracker[domain].total;
-
-      console.log('Index tracker: ', main.indexTracker);
     }
 
     return newDataset;
