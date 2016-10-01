@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, dialog} = require('electron');
 const {CGApp} = require('./home');
 const jsonfile = require('jsonfile');
 const jsontoxml = require('jsontoxml');
@@ -28,15 +28,21 @@ ipc.on('bodyLoaded', function(event) {
   event.sender.send('bodyLoadedReply', data);
 });
 
-ipc.on('export', function(event, data) {
-  let allSaveData, i, outputXML, s, size, xml;
+ipc.on('export-xml', function(event, data) {
+  let allSaveData, filename, i, outputXML, s, size, xml;
+
+  filename = dialog.showSaveDialog({
+    title: 'Export XML'
+  });
+
+  if(!filename) { return; }
 
   allSaveData = [];
   size = data.length;
 
   for(i = 0; i < size; i++) {
     let s = {
-      name: 'taco',
+      name: 'control',
       children: []
     };
 
@@ -52,7 +58,33 @@ ipc.on('export', function(event, data) {
     escape: true
   });
 
-  fs.writeFile('text-xml-output.xml', outputXML, function(err) {
+  if(!/\.xml$/.test(filename)) {
+    filename += '.xml';
+  }
+
+  fs.writeFile(filename, outputXML, function(err) {
+    if(err === null) {
+      event.sender.send('success-message', 'Successfully saved changes.');
+    } else {
+      event.sender.send('fail-message', 'Something went wrong trying to save the changes.');
+    }
+  });
+});
+
+ipc.on('export-json', function(event, data) {
+  let allSaveData, filename, i, outputXML, s, size, xml;
+
+  filename = dialog.showSaveDialog({
+    title: 'Export Report'
+  });
+
+  if(!filename) { return; }
+
+  if(!/\.json$/.test(filename)) {
+    filename += '.json';
+  }
+
+  jsonfile.writeFile(filename, data, function(err) {
     if(err === null) {
       event.sender.send('success-message', 'Successfully saved changes.');
     } else {

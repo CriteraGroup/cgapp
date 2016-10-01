@@ -12,10 +12,7 @@
 <body ng-controller="mainController as main">
   <header class="app-header">
     <span class="exit-container">
-      <span class="exit-icon-container">
-        <img class="exit-icon" src="../icons/svg/car.svg" alt="Exit" data-ng-click="main.exit()" width="35px">
-      </span>
-      <!--<button class="cg-button exit" data-ng-click="main.exit()">Exit</button>-->
+      <button class="cg-button exit" data-ng-click="main.exit()">Exit</button>
     </span>
     <span class="title-container">
       <span class="title">Critera Group</span>
@@ -23,13 +20,21 @@
         <input data-ng-model="main.questionNumber" data-ng-change="main.updateQuestion()" /> / {{main.totalQuestions}}
       </span>
     </span>
-    <!--<span class="export-container">-->
-      <!--<button class="cg-button export" data-ng-click="main.exportFile()">Export</button>-->
-    <!--</span>-->
+    <!--<span class="export-container">
+      <button class="cg-button export" data-ng-click="main.exportFile()">Export</button>
+    </span>-->
     <span class="save-container">
-      <img class="export-icon" src="../icons/svg/download.svg" alt="Export" data-ng-click="main.exportFile()" width="35px">
-      <img class="save-icon" src="../icons/svg/explore.svg" alt="Save" data-ng-click="main.save()" width="35px">
-      <!--<button class="cg-button save" data-ng-click="main.save()">Save</button>-->
+      <!--<img class="export-icon" src="../icons/svg/download.svg" alt="Export" data-ng-click="main.exportFile()" width="35px">-->
+      <!--<img class="save-icon" src="../icons/svg/explore.svg" alt="Save" data-ng-click="main.save()" width="35px">-->
+      <cg-dropdown>
+        <cg-dropdown-title class="cg-button">Export</cg-dropdown-title>
+        <cg-inner-dropdown>
+          <cg-dropdown-item data-ng-click="main.exportFile('json')">JSON</cg-dropdown-item>
+          <cg-dropdown-item data-ng-click="main.exportFile('xml')">XML</cg-dropdown-item>
+          <!--<cg-dropdown-item data-ng-click="main.exportFile('xlsx')">XLSX</cg-dropdown-item>-->
+        </cg-inner-dropdown>
+      </cg-dropdown>
+      <button class="cg-button save" data-ng-click="main.save()">Save</button>
     </span>
   </header>
   <div class="controls">

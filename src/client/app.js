@@ -94,17 +94,22 @@ function createMainController(ipc, store) {
     ipc.send('exit');
   }
 
-  function exportFile() {
-    ipc.send('export', questions);
-    // Decide what file type to export
+  function exportFile(type) {
+    switch(type) {
+      case 'xml': 
+        exportXML();
+        break;
+      default: 
+        exportJSON();
+    }
   }
 
-  function exportCSV() {
-    // TODO: Export to CSV format
+  function exportXML() {
+    ipc.send('export-xml', questions);
   }
 
-  function exportXLSX() {
-    // TODO: Export to XLSX format
+  function exportJSON() {
+    ipc.send('export-json', questions);
   }
 
   function getMatch(id, data) {
