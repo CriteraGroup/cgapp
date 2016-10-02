@@ -37,6 +37,8 @@ ipc.on('open', function(event) {
     properties: ['openFile']
   });
 
+  if(!filename) { return; }
+
   jsonRegex = /\.json$/;
   xlsxRegex = /\.xlsx$/;
 
