@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Droid Sans';
-  src: url("../fonts/DroidSans.ttf") format("truetype");
+  src: url("../fonts/Droid_Sans/DroidSans.ttf") format("truetype");
   font-weight: normal;
   font-style: normal; }
 
@@ -39,8 +39,7 @@ body * {
   color: #E8EAF6;
   font-size: 16px;
   font-weight: 100;
-  height: 40px;
-  width: 100px; }
+  padding: 10px 15px; }
   .cg-button:hover {
     background: #304FFE;
     cursor: pointer; }
@@ -61,7 +60,7 @@ body * {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    width: 25%;
+    width: 16.66667%;
     float: left;
     line-height: 65px; }
     .app-header .exit-container:after {
@@ -72,7 +71,7 @@ body * {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
+    width: 66.66667%;
     float: left; }
     .app-header .title-container:after {
       content: " ";
@@ -98,9 +97,8 @@ body * {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    width: 25%;
-    float: right;
-    margin-right: 0;
+    width: 16.66667%;
+    float: left;
     line-height: 65px; }
     .app-header .save-container:after {
       content: " ";
@@ -362,3 +360,23 @@ choice-menu {
       font-weight: 400;
       letter-spacing: 1px;
       padding-bottom: 5px; }
+
+cg-dropdown {
+  cursor: pointer;
+  display: inline-block;
+  position: relative; }
+  cg-dropdown cg-dropdown-item {
+    background-color: #1A237E;
+    color: #fff;
+    display: block;
+    font-size: 16px;
+    font-weight: 300;
+    padding: 0 10px;
+    transition: background-color .3s ease; }
+    cg-dropdown cg-dropdown-item:hover {
+      background-color: #3F51B5; }
+  cg-dropdown cg-inner-dropdown {
+    display: none;
+    position: absolute; }
+  cg-dropdown:hover cg-inner-dropdown {
+    display: block; }

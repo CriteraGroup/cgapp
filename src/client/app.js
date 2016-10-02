@@ -15,13 +15,13 @@ const SECTION = 'section';
 const SOURCE = 'source';
 const REASON = 'reason';
 const QUESTION = 'question';
-const CUSTOMER_RESPONSE = 'customer response';
-const AUDITOR_NOTES = 'auditor notes';
+const CUSTOMER_RESPONSE = 'customer_response';
+const AUDITOR_NOTES = 'auditor_notes';
 const ANSWER = 'answer';
-const POLICY_DEFINED = 'policy defined';
-const CONTROL_IMPLEMENTED = 'control implemented';
-const CONTROL_AUTOMATED = 'control automated or technically enforced';
-const CONTROL_REPORTED = 'control reported to business';
+const POLICY_DEFINED = 'policy_defined';
+const CONTROL_IMPLEMENTED = 'control_implemented';
+const CONTROL_AUTOMATED = 'control_automated_or_technically_enforced';
+const CONTROL_REPORTED = 'control_reported_to_business';
 const STATUS = 'status';
 
 app.value('ipc', ipcRenderer);
@@ -30,8 +30,8 @@ app.factory('messenger', createMessenger);
 app.factory('store', createStore);
 app.run(run);
 
-createMainController.$inject = ['ipc', 'store'];
-function createMainController(ipc, store) {
+createMainController.$inject = ['$scope', 'ipc', 'store'];
+function createMainController($scope, ipc, store) {
   var main,
     parsedData,
     previousQuestion,
@@ -46,11 +46,13 @@ function createMainController(ipc, store) {
   main.isCompliant = isCompliant;
   main.domains = domains;
   main.exit = exit;
+  main.exportFile = exportFile;
   main.getTrueQuestionNumber = getTrueQuestionNumber;
   main.goToDomain = goToDomain;
   main.implementation = implementationStatusValues; // Need dropdown
   main.indexTracker = Object.create(null);
   main.next = next;
+  main.open = open;
   main.policyDefined = policyDefinedValues;
   main.previous = previous;
   main.questionIndex = 0;
@@ -70,7 +72,7 @@ function createMainController(ipc, store) {
   store.load().then(function(data) {
     parsedData = parseDataIntoDomains(data);
 
-    console.log('parsedData: ', parsedData);
+    // console.log('parsedData: ', parsedData);
 
     main.currentDomain = domains[0];
     questions = data;
@@ -93,6 +95,24 @@ function createMainController(ipc, store) {
     ipc.send('exit');
   }
 
+  function exportFile(type) {
+    switch(type) {
+      case 'xml': 
+        exportXML();
+        break;
+      default: 
+        exportJSON();
+    }
+  }
+
+  function exportXML() {
+    ipc.send('export-xml', questions);
+  }
+
+  function exportJSON() {
+    ipc.send('export-json', questions);
+  }
+
   function getMatch(id, data) {
     var i, size;
 
@@ -113,8 +133,6 @@ function createMainController(ipc, store) {
 
   function goToDomain(domainName) {
     var prop;
-
-    console.log('Domain name: ', domainName);
 
     for(prop in main.indexTracker) {
       if(domainName === prop) {
@@ -140,7 +158,26 @@ function createMainController(ipc, store) {
       }
   }
 
-  function parseDataIntoDomains(data) {
+  function open() {
+    ipc.send('open');
+    ipc.once('done-opening', function(response, data, isXLSX) {
+      parsedData = isXLSX ? parseXLSXIntoDomains(data) : parseDataIntoDomains(data);
+
+      main.currentDomain = domains[0];
+      questions = data;
+
+      main.current = questions[main.questionIndex];
+      main.totalQuestions = questions.length;
+      main.domainIndex = main.indexTracker[main.currentDomain].index;
+      main.domainTotal = main.indexTracker[main.currentDomain].total;
+
+      setTimeout(function() {
+        $scope.$digest();
+      }, 0);
+    });
+  }
+
+  function parseXLSXIntoDomains(data) {
     var newDataset, domain, i, j, numberOfDomains, size, startingIndex;
 
     newDataset = Object.create(null);
@@ -177,6 +214,35 @@ function createMainController(ipc, store) {
       startingIndex += main.indexTracker[domain].total;
 
       console.log('Index tracker: ', main.indexTracker);
+    }
+
+    return newDataset;
+  }
+
+  function parseDataIntoDomains(data) {
+    var newDataset, domain, i, j, numberOfDomains, size, startingIndex;
+
+    newDataset = Object.create(null);
+    numberOfDomains = domains.length;
+    size = data.length;
+    startingIndex = 1;
+
+    for(i = 0; i < numberOfDomains; i++) {
+      domain = domains[i];
+      newDataset[domain] = [];
+
+      for(j = 0; j < size; j++) {
+        if(domain === data[j].domain) {
+          newDataset[domain].push(data[j]);
+        }
+      }
+
+      main.indexTracker[domain] = Object.create(null); // Create hash map.
+      main.indexTracker[domain].index = 1; // Set index to 1 intially.
+      main.indexTracker[domain].total = newDataset[domain].length; // Set threshold.
+
+      main.indexTracker[domain].startingIndex = startingIndex;
+      startingIndex += main.indexTracker[domain].total;
     }
 
     return newDataset;
