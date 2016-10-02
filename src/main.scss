@@ -67,14 +67,14 @@ body {
 
   .exit-container {
     @include container;
-    @include span(1);
+    @include span(2);
 
     line-height: 65px;
   }
 
   .title-container {
     @include container;
-    @include span(9 at 1);
+    @include span(8 at 2);
 
     .title {
       @include span(12);

@@ -30,8 +30,8 @@ app.factory('messenger', createMessenger);
 app.factory('store', createStore);
 app.run(run);
 
-createMainController.$inject = ['ipc', 'store'];
-function createMainController(ipc, store) {
+createMainController.$inject = ['$scope', 'ipc', 'store'];
+function createMainController($scope, ipc, store) {
   var main,
     parsedData,
     previousQuestion,
@@ -52,6 +52,7 @@ function createMainController(ipc, store) {
   main.implementation = implementationStatusValues; // Need dropdown
   main.indexTracker = Object.create(null);
   main.next = next;
+  main.open = open;
   main.policyDefined = policyDefinedValues;
   main.previous = previous;
   main.questionIndex = 0;
@@ -155,6 +156,67 @@ function createMainController(ipc, store) {
           main.questionNumber++;
           updateQuestion(1);
       }
+  }
+
+  function open() {
+    ipc.send('open');
+    ipc.once('done-opening', function(response, data, isXLSX) {
+      parsedData = isXLSX ? parseXLSXIntoDomains(data) : parseDataIntoDomains(data);
+
+      main.currentDomain = domains[0];
+      questions = data;
+
+      main.current = questions[main.questionIndex];
+      main.totalQuestions = questions.length;
+      main.domainIndex = main.indexTracker[main.currentDomain].index;
+      main.domainTotal = main.indexTracker[main.currentDomain].total;
+
+      setTimeout(function() {
+        $scope.$digest();
+      }, 0);
+    });
+  }
+
+  function parseXLSXIntoDomains(data) {
+    var newDataset, domain, i, j, numberOfDomains, size, startingIndex;
+
+    newDataset = Object.create(null);
+    numberOfDomains = domains.length;
+    size = data.length;
+    startingIndex = 1;
+
+    debugger;
+
+    for(j = 0; j < size; j++) {
+      data[j][ANSWER] = getMatch(data[j][ANSWER], answers);
+      data[j][POLICY_DEFINED] = getMatch(data[j][POLICY_DEFINED], policyDefinedValues);
+      data[j][CONTROL_IMPLEMENTED] = getMatch(data[j][CONTROL_IMPLEMENTED], implementationStatusValues);
+      data[j][CONTROL_AUTOMATED] = getMatch(data[j][CONTROL_AUTOMATED], automationStatusValues);
+      data[j][CONTROL_REPORTED] = getMatch(data[j][CONTROL_REPORTED], reportingStatusValues);
+      data[j][STATUS] = getMatch(data[j][STATUS], statusOptions);
+    }
+
+    for(i = 0; i < numberOfDomains; i++) {
+      domain = domains[i];
+      newDataset[domain] = [];
+
+      for(j = 0; j < size; j++) {
+        if(domain === data[j].domain) {
+          newDataset[domain].push(data[j]);
+        }
+      }
+
+      main.indexTracker[domain] = Object.create(null); // Create hash map.
+      main.indexTracker[domain].index = 1; // Set index to 1 intially.
+      main.indexTracker[domain].total = newDataset[domain].length; // Set threshold.
+
+      main.indexTracker[domain].startingIndex = startingIndex;
+      startingIndex += main.indexTracker[domain].total;
+
+      console.log('Index tracker: ', main.indexTracker);
+    }
+
+    return newDataset;
   }
 
   function parseDataIntoDomains(data) {

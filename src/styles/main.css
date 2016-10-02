@@ -60,7 +60,7 @@ body * {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    width: 8.33333%;
+    width: 16.66667%;
     float: left;
     line-height: 65px; }
     .app-header .exit-container:after {
@@ -71,7 +71,7 @@ body * {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    width: 75%;
+    width: 66.66667%;
     float: left; }
     .app-header .title-container:after {
       content: " ";
