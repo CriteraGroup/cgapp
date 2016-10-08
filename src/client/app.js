@@ -97,20 +97,29 @@ function createMainController($scope, ipc, store) {
 
   function exportFile(type) {
     switch(type) {
-      case 'xml': 
+      case 'xlsx': {
+        exportXLSX();
+        break;
+      }
+      case 'xml': {
         exportXML();
         break;
+      }
       default: 
         exportJSON();
     }
   }
 
-  function exportXML() {
-    ipc.send('export-xml', questions);
-  }
-
   function exportJSON() {
     ipc.send('export-json', questions);
+  }
+
+  function exportXLSX() {
+    ipc.send('export-xlsx', questions);
+  }
+
+  function exportXML() {
+    ipc.send('export-xml', questions);
   }
 
   function getMatch(id, data) {

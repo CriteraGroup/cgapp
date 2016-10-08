@@ -71,6 +71,93 @@ ipc.on('open', function(event) {
   }
 });
 
+ipc.on('export-json', function(event, data) {
+  let allSaveData, d, filename, i, outputXML, s, size, xml;
+
+  for(d = 0; d < data.length; d++) {
+    getControlScore(data[d]);
+  }
+
+  filename = dialog.showSaveDialog({
+    title: 'Export Report'
+  });
+
+  if(!filename) { return; }
+
+  if(!/\.json$/.test(filename)) {
+    filename += '.json';
+  }
+
+  jsonfile.writeFile(filename, data, function(err) {
+    if(err === null) {
+      event.sender.send('success-message', 'Successfully saved changes.');
+    } else {
+      event.sender.send('fail-message', 'Something went wrong trying to save the changes.');
+    }
+  });
+});
+
+ipc.on('export-xlsx', function(event, rows) {
+  var filename, i, sheet,
+  workbook = new Excel.Workbook();
+
+  for(i = 0; i < rows.length; i++) {
+    getControlScore(rows[i])
+  }
+
+  filename = dialog.showSaveDialog({
+    title: 'Export Report'
+  });
+
+  if(!filename) { return; }
+
+  if(!/\.xlsx$/.test(filename)) {
+    filename += '.xlsx';
+  }
+
+  sheet = workbook.addWorksheet('Dataset');
+  
+  sheet.columns = [
+    { header: DOMAIN, key: DOMAIN, width: 10 },
+    { header: OBJECTIVE, key: OBJECTIVE, width: 10 },
+    { header: SECTION, key: SECTION, width: 10 },
+    { header: SOURCE, key: SOURCE, width: 10 },
+    { header: REASON, key: REASON, width: 10 },
+    { header: QUESTION, key: QUESTION, width: 10 },
+    { header: CUSTOMER_RESPONSE, key: CUSTOMER_RESPONSE, width: 10 },
+    { header: AUDITOR_NOTES, key: AUDITOR_NOTES, width: 10 },
+    { header: ANSWER, key: ANSWER, width: 10 },
+    { header: POLICY_DEFINED, key: POLICY_DEFINED, width: 10 },
+    { header: CONTROL_IMPLEMENTED, key: CONTROL_IMPLEMENTED, width: 10 },
+    { header: CONTROL_AUTOMATED, key: CONTROL_AUTOMATED, width: 10 },
+    { header: CONTROL_REPORTED, key: CONTROL_REPORTED, width: 10 },
+    { header: STATUS, key: STATUS, width: 10 }
+  ];
+
+  rows.forEach(function loopRows(row) {
+      sheet.addRow({
+        'domain': row[DOMAIN],
+        'objective': row[OBJECTIVE],
+        'section': row[SECTION],
+        'source': row[SOURCE],
+        'reason': row[REASON],
+        'question': row[QUESTION],
+        'customer_response': row[CUSTOMER_RESPONSE],
+        'auditor_notes': row[AUDITOR_NOTES],
+        'answer': typeof row[ANSWER] !== 'undefined' ? row[ANSWER].id : null,
+        'policy_defined': typeof row[POLICY_DEFINED] !== 'undefined' ? row[POLICY_DEFINED].id : null,
+        'control_implemented': typeof row[CONTROL_IMPLEMENTED] !== 'undefined' ? row[CONTROL_IMPLEMENTED].id : null,
+        'control_automated_or_technically_enforced': typeof row[CONTROL_AUTOMATED] !== 'undefined' ? row[CONTROL_AUTOMATED].id : null,
+        'control_reported_to_business': typeof row[CONTROL_REPORTED] !== 'undefined' ? row[CONTROL_REPORTED].id : null,
+        'status': typeof row[STATUS] !== 'undefined' ? row[STATUS] : null 
+      });
+  });
+
+  workbook.xlsx.writeFile(filename).then(function() {
+    event.sender.send('success-message', 'Successfully saved changes.');
+  });
+});
+
 ipc.on('export-xml', function(event, data) {
   let allSaveData, d, filename, i, outputXML, s, size, xml;
 
@@ -115,89 +202,6 @@ ipc.on('export-xml', function(event, data) {
     } else {
       event.sender.send('fail-message', 'Something went wrong trying to save the changes.');
     }
-  });
-});
-
-ipc.on('export-json', function(event, data) {
-  let allSaveData, d, filename, i, outputXML, s, size, xml;
-
-  for(d = 0; d < data.length; d++) {
-    getControlScore(data[d]);
-  }
-
-  filename = dialog.showSaveDialog({
-    title: 'Export Report'
-  });
-
-  if(!filename) { return; }
-
-  if(!/\.json$/.test(filename)) {
-    filename += '.json';
-  }
-
-  jsonfile.writeFile(filename, data, function(err) {
-    if(err === null) {
-      event.sender.send('success-message', 'Successfully saved changes.');
-    } else {
-      event.sender.send('fail-message', 'Something went wrong trying to save the changes.');
-    }
-  });
-});
-
-ipc.on('export-excel', function(event, rows) {
-  var filename, sheet,
-  workbook = new Excel.Workbook();
-
-  filename = dialog.showSaveDialog({
-    title: 'Export Report'
-  });
-
-  if(!filename) { return; }
-
-  if(!/\.xlsx$/.test(filename)) {
-    filename += '.xlsx';
-  }
-
-  sheet = workbook.addWorksheet('Dataset');
-  
-  sheet.columns = [
-    { header: DOMAIN, key: DOMAIN, width: 10 },
-    { header: OBJECTIVE, key: OBJECTIVE, width: 10 },
-    { header: SECTION, key: SECTION, width: 10 },
-    { header: SOURCE, key: SOURCE, width: 10 },
-    { header: REASON, key: REASON, width: 10 },
-    { header: QUESTION, key: QUESTION, width: 10 },
-    { header: CUSTOMER_RESPONSE, key: CUSTOMER_RESPONSE, width: 10 },
-    { header: AUDITOR_NOTES, key: AUDITOR_NOTES, width: 10 },
-    { header: ANSWER, key: ANSWER, width: 10 },
-    { header: POLICY_DEFINED, key: POLICY_DEFINED, width: 10 },
-    { header: CONTROL_IMPLEMENTED, key: CONTROL_IMPLEMENTED, width: 10 },
-    { header: CONTROL_AUTOMATED, key: CONTROL_AUTOMATED, width: 10 },
-    { header: CONTROL_REPORTED, key: CONTROL_REPORTED, width: 10 },
-    { header: STATUS, key: STATUS, width: 10 }
-  ];
-
-  rows.forEach(function loopRows(row) {
-      sheet.addRow({
-        'domain': row[DOMAIN],
-        'objective': row[OBJECTIVE],
-        'section': row[SECTION],
-        'source': row[SOURCE],
-        'reason': row[REASON],
-        'question': row[QUESTION],
-        'customer response': row[CUSTOMER_RESPONSE],
-        'auditor notes': row[AUDITOR_NOTES],
-        'answer': typeof row[ANSWER] !== 'undefined' ? row[ANSWER].id : null,
-        'policy defined': typeof row[POLICY_DEFINED] !== 'undefined' ? row[POLICY_DEFINED].id : null,
-        'control implemented': typeof row[CONTROL_IMPLEMENTED] !== 'undefined' ? row[CONTROL_IMPLEMENTED].id : null,
-        'control automated or technically enforced': typeof row[CONTROL_AUTOMATED] !== 'undefined' ? row[CONTROL_AUTOMATED].id : null,
-        'control reported to business': typeof row[CONTROL_REPORTED] !== 'undefined' ? row[CONTROL_REPORTED].id : null,
-        'status': typeof row[STATUS] !== 'undefined' ? row[STATUS].id : null 
-      });
-  });
-
-  workbook.xlsx.writeFile(filename).then(function() {
-    event.sender.send('success-message', 'Successfully saved changes.');
   });
 });
 
