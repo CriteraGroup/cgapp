@@ -8,6 +8,7 @@ var reportingStatusValues = require('../../resources/reporting-status.json');
 var statusOptions = require('../../resources/status-options.json');
 var domains = require('../../resources/domain-list.json');
 var answers = require('../../resources/answer-list.json');
+var control = require('../control');
 
 const DOMAIN = 'domain';
 const OBJECTIVE = 'objective';
@@ -60,6 +61,7 @@ function createMainController($scope, ipc, store) {
   main.reporting = reportingStatusValues; // TODO: Need dropdown
   main.save = save;
   main.statusOptions = statusOptions;
+  main.calculateScore = control.calculateScore;
   
   main.domainIndex = 0;
   main.domainQuestionNumber = 1;
