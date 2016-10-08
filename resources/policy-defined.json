@@ -1,8 +1,8 @@
 [
-    { "id": 0, "text": "No Policy" },
-    { "id": 1, "text": "Informal Policy" },
-    { "id": 2, "text": "Partial Written Policy" },
-    { "id": 3, "text": "Written Policy" },
-    { "id": 4, "text": "Approved Written Policy" },
+    { "id": 0, "text": "No Policy", "value": 0 },
+    { "id": 1, "text": "Informal Policy", "value": 0.25 },
+    { "id": 2, "text": "Partial Written Policy", "value": 0.50 },
+    { "id": 3, "text": "Written Policy", "value": 0.75 },
+    { "id": 4, "text": "Approved Written Policy", "value": 1 },
     { "id": 5, "text": "Not Applicable" }
 ]

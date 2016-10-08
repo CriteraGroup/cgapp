@@ -117,6 +117,10 @@ ipc.on('export-xml', function(event, data) {
 ipc.on('export-json', function(event, data) {
   let allSaveData, filename, i, outputXML, s, size, xml;
 
+  for(var d = 0; d < data.length; d++) {
+    getControlScore(data[d]);
+  }
+
   filename = dialog.showSaveDialog({
     title: 'Export Report'
   });
@@ -192,6 +196,92 @@ ipc.on('export-excel', function(event, rows) {
     event.sender.send('success-message', 'Successfully saved changes.');
   });
 });
+
+function getControlScore(c) {
+  var totalPointValue = 4;
+
+  if(_isNoAnswer()) {
+    _setZeroPoints();
+  } else if(_isYes()) {
+    _setFullPoints();
+  }  else if(_isNo()) {
+    _setZeroPoints();
+  } else if(_isNotApplicable()) {
+    _setNotApplicable();
+  } else if(_isNotReviewed()) {
+    _setNotReviewed();
+  } else if(_isPartial()) {
+    _getPartialControlScore();
+  }
+
+  function _getValue(property) {
+    if(!c[property]) { return; }
+
+    if(c[property].id === 5) {
+      totalPointValue--;
+      return;
+    }
+
+    return c[property].value;
+  }
+
+  function _getPartialControlScore() {
+    let controlAutomated, controlImplemented, controlReported, policyDefined, total;
+
+    controlAutomated = _getValue(CONTROL_AUTOMATED);
+    controlImplemented = _getValue(CONTROL_IMPLEMENTED);
+    controlReported = _getValue(CONTROL_REPORTED);
+    policyDefined = _getValue(POLICY_DEFINED);
+    total = 0;
+
+    total += controlAutomated ? controlAutomated : 0;
+    total += controlImplemented ? controlImplemented : 0;
+    total += controlReported ? controlReported : 0;
+    total += policyDefined ? policyDefined : 0;
+
+    c[STATUS] = (totalPointValue === 0) ? 0 : ((total/totalPointValue) * 100);
+  }
+
+  function _isNoAnswer() {
+    return !c[ANSWER];
+  }
+
+  function _isNo() {
+    return c[ANSWER].id === 1;
+  }
+
+  function _isNotApplicable() {
+    return c[ANSWER].id === 2;
+  }
+
+  function _isNotReviewed() {
+    return c[ANSWER].id === 3;
+  }
+
+  function _isPartial() {
+    return c[ANSWER].id === 5;
+  }
+
+  function _isYes() {
+    return c[ANSWER].id === 0;
+  }
+
+  function _setFullPoints() {
+    c[STATUS] = 100;
+  }
+
+  function _setNotApplicable() {
+    c[STATUS] = -1;
+  }
+
+  function _setNotReviewed() {
+    c[STATUS] = -2;
+  }
+
+  function _setZeroPoints() {
+    c[STATUS] = 0;
+  }
+}
 
 ipc.on('save', function(event, rows) {
   jsonfile.writeFile('data.json', rows, function(err) {

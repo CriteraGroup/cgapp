@@ -206,6 +206,8 @@ function createMainController($scope, ipc, store) {
         }
       }
 
+      console.log('data::', data);
+
       main.indexTracker[domain] = Object.create(null); // Create hash map.
       main.indexTracker[domain].index = 1; // Set index to 1 intially.
       main.indexTracker[domain].total = newDataset[domain].length; // Set threshold.

@@ -78,13 +78,13 @@
       <span class="row-section customer-response-row">
         <span class="customer-response-label">Customer Response:</span>
         <span class="customer-response">
-          <textarea data-ng-model="main.current['customer response']"></textarea>
+          <textarea data-ng-model="main.current['customer_response']"></textarea>
         </span>
       </span>
       <span class="row-section auditor-notes-row">
         <span class="auditor-notes-label">Auditor Notes:</span>
         <span class="auditor-notes">
-          <textarea data-ng-model="main.current['auditor notes']"></textarea>
+          <textarea data-ng-model="main.current['auditor_notes']"></textarea>
         </span>
       </span>
       <!--<span class="row-section">
@@ -100,6 +100,10 @@
       <span class="row-section">
         <span class="source-label">Source: </span> 
         <span class="source" data-ng-bind-html="main.current.source"></span>
+      </span>
+      <span class="row-section" data-ng-show="main.current.status >= 0">
+        <span class="source-label">Score: </span> 
+        <span class="source">{{main.current.status}}%</span>
       </span>
     </span>
     <choice-menu>

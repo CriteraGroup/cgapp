@@ -1,8 +1,8 @@
 [
-    { "id": 0, "text": "Not Automated" },
-    { "id": 1, "text": "Parts of Policy Automated" },
-    { "id": 2, "text": "Automated on Some Systems" },
-    { "id": 3, "text": "Automated on Most Systems" },
-    { "id": 4, "text": "Automated on All Systems" },
+    { "id": 0, "text": "Not Automated", "value": 0 },
+    { "id": 1, "text": "Parts of Policy Automated", "value": 0.25 },
+    { "id": 2, "text": "Automated on Some Systems", "value": 0.50 },
+    { "id": 3, "text": "Automated on Most Systems", "value": 0.75 },
+    { "id": 4, "text": "Automated on All Systems", "value": 1 },
     { "id": 5, "text": "Not Applicable" }
 ]
