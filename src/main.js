@@ -72,7 +72,11 @@ ipc.on('open', function(event) {
 });
 
 ipc.on('export-xml', function(event, data) {
-  let allSaveData, filename, i, outputXML, s, size, xml;
+  let allSaveData, d, filename, i, outputXML, s, size, xml;
+
+  for(d = 0; d < data.length; d++) {
+    getControlScore(data[d]);
+  }
 
   filename = dialog.showSaveDialog({
     title: 'Export XML'
@@ -115,9 +119,9 @@ ipc.on('export-xml', function(event, data) {
 });
 
 ipc.on('export-json', function(event, data) {
-  let allSaveData, filename, i, outputXML, s, size, xml;
+  let allSaveData, d, filename, i, outputXML, s, size, xml;
 
-  for(var d = 0; d < data.length; d++) {
+  for(d = 0; d < data.length; d++) {
     getControlScore(data[d]);
   }
 
@@ -215,29 +219,25 @@ function getControlScore(c) {
   }
 
   function _getValue(property) {
-    if(!c[property]) { return; }
+    let value = 0;
+
+    if(!c[property]) { return value; }
 
     if(c[property].id === 5) {
       totalPointValue--;
-      return;
+      return value;
     }
 
     return c[property].value;
   }
 
   function _getPartialControlScore() {
-    let controlAutomated, controlImplemented, controlReported, policyDefined, total;
+    let total = 0;
 
-    controlAutomated = _getValue(CONTROL_AUTOMATED);
-    controlImplemented = _getValue(CONTROL_IMPLEMENTED);
-    controlReported = _getValue(CONTROL_REPORTED);
-    policyDefined = _getValue(POLICY_DEFINED);
-    total = 0;
-
-    total += controlAutomated ? controlAutomated : 0;
-    total += controlImplemented ? controlImplemented : 0;
-    total += controlReported ? controlReported : 0;
-    total += policyDefined ? policyDefined : 0;
+    total += _getValue(CONTROL_AUTOMATED);
+    total += _getValue(CONTROL_IMPLEMENTED);
+    total += _getValue(CONTROL_REPORTED);
+    total += _getValue(POLICY_DEFINED);
 
     c[STATUS] = (totalPointValue === 0) ? 0 : ((total/totalPointValue) * 100);
   }
