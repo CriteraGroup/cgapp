@@ -5,7 +5,7 @@ module.exports.calculateScore = function calculateScore(c) {
     _setZeroPoints();
   } else if(_isYes()) {
     _setFullPoints();
-  }  else if(_isNo()) {
+  } else if(_isNo()) {
     _setZeroPoints();
   } else if(_isNotApplicable()) {
     _setNotApplicable();
