@@ -4,21 +4,7 @@ const jsonfile = require('jsonfile');
 const jsontoxml = require('jsontoxml');
 const xlsx = require('xlsx');
 const Excel = require('exceljs');
-
-const DOMAIN = 'domain';
-const OBJECTIVE = 'objective';
-const SECTION = 'section';
-const SOURCE = 'source';
-const REASON = 'reason';
-const QUESTION = 'question';
-const CUSTOMER_RESPONSE = 'customer_response';
-const AUDITOR_NOTES = 'auditor_notes';
-const ANSWER = 'answer';
-const POLICY_DEFINED = 'policy_defined';
-const CONTROL_IMPLEMENTED = 'control_implemented';
-const CONTROL_AUTOMATED = 'control_automated_or_technically_enforced';
-const CONTROL_REPORTED = 'control_reported_to_business';
-const STATUS = 'status';
+const fields = require('./fields');
 
 let fs = require('fs');
 let ipc = require('electron').ipcMain;
@@ -118,38 +104,38 @@ ipc.on('export-xlsx', function(event, rows) {
   sheet = workbook.addWorksheet('Dataset');
   
   sheet.columns = [
-    { header: DOMAIN, key: DOMAIN, width: 10 },
-    { header: OBJECTIVE, key: OBJECTIVE, width: 10 },
-    { header: SECTION, key: SECTION, width: 10 },
-    { header: SOURCE, key: SOURCE, width: 10 },
-    { header: REASON, key: REASON, width: 10 },
-    { header: QUESTION, key: QUESTION, width: 10 },
-    { header: CUSTOMER_RESPONSE, key: CUSTOMER_RESPONSE, width: 10 },
-    { header: AUDITOR_NOTES, key: AUDITOR_NOTES, width: 10 },
-    { header: ANSWER, key: ANSWER, width: 10 },
-    { header: POLICY_DEFINED, key: POLICY_DEFINED, width: 10 },
-    { header: CONTROL_IMPLEMENTED, key: CONTROL_IMPLEMENTED, width: 10 },
-    { header: CONTROL_AUTOMATED, key: CONTROL_AUTOMATED, width: 10 },
-    { header: CONTROL_REPORTED, key: CONTROL_REPORTED, width: 10 },
-    { header: STATUS, key: STATUS, width: 10 }
+    { header: fields.domain, key: fields.domain, width: 10 },
+    { header: fields.objective, key: fields.objective, width: 10 },
+    { header: fields.section, key: fields.section, width: 10 },
+    { header: fields.source, key: fields.source, width: 10 },
+    { header: fields.reason, key: fields.reason, width: 10 },
+    { header: fields.question, key: fields.question, width: 10 },
+    { header: fields.customerResponse, key: fields.customerResponse, width: 10 },
+    { header: fields.auditorNotes, key: fields.auditorNotes, width: 10 },
+    { header: fields.answer, key: fields.answer, width: 10 },
+    { header: fields.policyDefined, key: fields.policyDefined, width: 10 },
+    { header: fields.controlImplemented, key: fields.controlImplemented, width: 10 },
+    { header: fields.controlAutomated, key: fields.controlAutomated, width: 10 },
+    { header: fields.controlReported, key: fields.controlReported, width: 10 },
+    { header: fields.status, key: fields.status, width: 10 }
   ];
 
   rows.forEach(function loopRows(row) {
       sheet.addRow({
-        'domain': row[DOMAIN],
-        'objective': row[OBJECTIVE],
-        'section': row[SECTION],
-        'source': row[SOURCE],
-        'reason': row[REASON],
-        'question': row[QUESTION],
-        'customer_response': row[CUSTOMER_RESPONSE],
-        'auditor_notes': row[AUDITOR_NOTES],
-        'answer': typeof row[ANSWER] !== 'undefined' ? row[ANSWER].id : null,
-        'policy_defined': typeof row[POLICY_DEFINED] !== 'undefined' ? row[POLICY_DEFINED].id : null,
-        'control_implemented': typeof row[CONTROL_IMPLEMENTED] !== 'undefined' ? row[CONTROL_IMPLEMENTED].id : null,
-        'control_automated_or_technically_enforced': typeof row[CONTROL_AUTOMATED] !== 'undefined' ? row[CONTROL_AUTOMATED].id : null,
-        'control_reported_to_business': typeof row[CONTROL_REPORTED] !== 'undefined' ? row[CONTROL_REPORTED].id : null,
-        'status': typeof row[STATUS] !== 'undefined' ? row[STATUS] : null 
+        'domain': row[fields.domain],
+        'objective': row[fields.objective],
+        'section': row[fields.section],
+        'source': row[fields.source],
+        'reason': row[fields.reason],
+        'question': row[fields.question],
+        'customer_response': row[fields.customerResponse],
+        'auditor_notes': row[fields.auditorNotes],
+        'answer': typeof row[fields.answer] !== 'undefined' ? row[fields.answer].id : null,
+        'policy_defined': typeof row[fields.policyDefined] !== 'undefined' ? row[fields.policyDefined].id : null,
+        'control_implemented': typeof row[fields.controlImplemented] !== 'undefined' ? row[fields.controlImplemented].id : null,
+        'control_automated_or_technically_enforced': typeof row[fields.controlAutomated] !== 'undefined' ? row[fields.controlAutomated].id : null,
+        'control_reported_to_business': typeof row[fields.controlReported] !== 'undefined' ? row[fields.controlReported].id : null,
+        'status': typeof row[fields.status] !== 'undefined' ? row[fields.status] : null 
       });
   });
 
@@ -205,6 +191,22 @@ ipc.on('export-xml', function(event, data) {
   });
 });
 
+ipc.on('save', function(event, rows) {
+  jsonfile.writeFile('data.json', rows, function(err) {
+    if(err === null) {
+      event.sender.send('success-message', 'Successfully saved changes.');
+    } else {
+      event.sender.send('fail-message', 'Something went wrong trying to save the changes.');
+    }
+  });
+});
+
+ipc.on('exit', function() {
+  app.quit();
+});
+
+new CGApp(app, BrowserWindow);
+
 function getControlScore(c) {
   var totalPointValue = 4;
 
@@ -212,7 +214,7 @@ function getControlScore(c) {
     _setZeroPoints();
   } else if(_isYes()) {
     _setFullPoints();
-  }  else if(_isNo()) {
+  } else if(_isNo()) {
     _setZeroPoints();
   } else if(_isNotApplicable()) {
     _setNotApplicable();
@@ -238,67 +240,51 @@ function getControlScore(c) {
   function _getPartialControlScore() {
     let total = 0;
 
-    total += _getValue(CONTROL_AUTOMATED);
-    total += _getValue(CONTROL_IMPLEMENTED);
-    total += _getValue(CONTROL_REPORTED);
-    total += _getValue(POLICY_DEFINED);
+    total += _getValue(fields.controlAutomated);
+    total += _getValue(fields.controlImplemented);
+    total += _getValue(fields.controlReported);
+    total += _getValue(fields.policyDefined);
 
-    c[STATUS] = (totalPointValue === 0) ? 0 : ((total/totalPointValue) * 100);
+    c[fields.status] = (totalPointValue === 0) ? 0 : ((total/totalPointValue) * 100);
   }
 
   function _isNoAnswer() {
-    return !c[ANSWER];
+    return !c[fields.answer];
   }
 
   function _isNo() {
-    return c[ANSWER].id === 1;
+    return c[fields.answer].id === 1;
   }
 
   function _isNotApplicable() {
-    return c[ANSWER].id === 2;
+    return c[fields.answer].id === 2;
   }
 
   function _isNotReviewed() {
-    return c[ANSWER].id === 3;
+    return c[fields.answer].id === 3;
   }
 
   function _isPartial() {
-    return c[ANSWER].id === 5;
+    return c[fields.answer].id === 5;
   }
 
   function _isYes() {
-    return c[ANSWER].id === 0;
+    return c[fields.answer].id === 0;
   }
 
   function _setFullPoints() {
-    c[STATUS] = 100;
+    c[fields.status] = 100;
   }
 
   function _setNotApplicable() {
-    c[STATUS] = -1;
+    c[fields.status] = -1;
   }
 
   function _setNotReviewed() {
-    c[STATUS] = -2;
+    c[fields.status] = -2;
   }
 
   function _setZeroPoints() {
-    c[STATUS] = 0;
+    c[fields.status] = 0;
   }
 }
-
-ipc.on('save', function(event, rows) {
-  jsonfile.writeFile('data.json', rows, function(err) {
-    if(err === null) {
-      event.sender.send('success-message', 'Successfully saved changes.');
-    } else {
-      event.sender.send('fail-message', 'Something went wrong trying to save the changes.');
-    }
-  });
-});
-
-ipc.on('exit', function() {
-  app.quit();
-});
-
-new CGApp(app, BrowserWindow);

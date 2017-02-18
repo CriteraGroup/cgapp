@@ -1,29 +1,16 @@
-var ipcRenderer = require('electron').ipcRenderer;
-var app = angular.module('cgapp', ['ngSanitize']);
+let ipcRenderer = require('electron').ipcRenderer;
+let app = angular.module('cgapp', ['ngSanitize']);
 
-var automationStatusValues = require('../../resources/automation-status.json');
-var implementationStatusValues = require('../../resources/implementation-status.json');
-var policyDefinedValues = require('../../resources/policy-defined.json');
-var reportingStatusValues = require('../../resources/reporting-status.json');
-var statusOptions = require('../../resources/status-options.json');
-var domains = require('../../resources/domain-list.json');
-var answers = require('../../resources/answer-list.json');
-var control = require('../control');
+let automationStatusValues = require('../../resources/automation-status.json');
+let implementationStatusValues = require('../../resources/implementation-status.json');
+let policyDefinedValues = require('../../resources/policy-defined.json');
+let reportingStatusValues = require('../../resources/reporting-status.json');
+let statusOptions = require('../../resources/status-options.json');
+let domains = require('../../resources/domain-list.json');
+let answers = require('../../resources/answer-list.json');
+let control = require('../control');
 
-const DOMAIN = 'domain';
-const OBJECTIVE = 'objective';
-const SECTION = 'section';
-const SOURCE = 'source';
-const REASON = 'reason';
-const QUESTION = 'question';
-const CUSTOMER_RESPONSE = 'customer_response';
-const AUDITOR_NOTES = 'auditor_notes';
-const ANSWER = 'answer';
-const POLICY_DEFINED = 'policy_defined';
-const CONTROL_IMPLEMENTED = 'control_implemented';
-const CONTROL_AUTOMATED = 'control_automated_or_technically_enforced';
-const CONTROL_REPORTED = 'control_reported_to_business';
-const STATUS = 'status';
+const fields = require('../fields');
 
 app.value('ipc', ipcRenderer);
 app.controller('mainController', createMainController);
@@ -33,7 +20,7 @@ app.run(run);
 
 createMainController.$inject = ['$scope', 'ipc', 'store'];
 function createMainController($scope, ipc, store) {
-  var main,
+  let main,
     parsedData,
     previousQuestion,
     questions;
@@ -125,7 +112,7 @@ function createMainController($scope, ipc, store) {
   }
 
   function getMatch(id, data) {
-    var i, size;
+    let i, size;
 
     if(typeof id === 'undefined') { return; }
 
@@ -143,7 +130,7 @@ function createMainController($scope, ipc, store) {
   }
 
   function goToDomain(domainName) {
-    var prop;
+    let prop;
 
     for(prop in main.indexTracker) {
       if(domainName === prop) {
@@ -189,7 +176,7 @@ function createMainController($scope, ipc, store) {
   }
 
   function parseXLSXIntoDomains(data) {
-    var newDataset, domain, i, j, numberOfDomains, size, startingIndex;
+    let newDataset, domain, i, j, numberOfDomains, size, startingIndex;
 
     newDataset = Object.create(null);
     numberOfDomains = domains.length;
@@ -199,12 +186,12 @@ function createMainController($scope, ipc, store) {
     debugger;
 
     for(j = 0; j < size; j++) {
-      data[j][ANSWER] = getMatch(data[j][ANSWER], answers);
-      data[j][POLICY_DEFINED] = getMatch(data[j][POLICY_DEFINED], policyDefinedValues);
-      data[j][CONTROL_IMPLEMENTED] = getMatch(data[j][CONTROL_IMPLEMENTED], implementationStatusValues);
-      data[j][CONTROL_AUTOMATED] = getMatch(data[j][CONTROL_AUTOMATED], automationStatusValues);
-      data[j][CONTROL_REPORTED] = getMatch(data[j][CONTROL_REPORTED], reportingStatusValues);
-      data[j][STATUS] = getMatch(data[j][STATUS], statusOptions);
+      data[j][fields.answer] = getMatch(data[j][fields.answer], answers);
+      data[j][fields.policyDefined] = getMatch(data[j][fields.policyDefined], policyDefinedValues);
+      data[j][fields.controlImplemented] = getMatch(data[j][fields.controlImplemented], implementationStatusValues);
+      data[j][fields.controlAutomated] = getMatch(data[j][fields.controlAutomated], automationStatusValues);
+      data[j][fields.controlReported] = getMatch(data[j][fields.controlReported], reportingStatusValues);
+      data[j][fields.status] = getMatch(data[j][fields.status], statusOptions);
     }
 
     for(i = 0; i < numberOfDomains; i++) {
@@ -233,7 +220,7 @@ function createMainController($scope, ipc, store) {
   }
 
   function parseDataIntoDomains(data) {
-    var newDataset, domain, i, j, numberOfDomains, size, startingIndex;
+    let newDataset, domain, i, j, numberOfDomains, size, startingIndex;
 
     newDataset = Object.create(null);
     numberOfDomains = domains.length;
@@ -294,7 +281,7 @@ function createMainController($scope, ipc, store) {
   }
 
   function setDomainIndex() {
-    var currentDomain, domain, totalIndex;
+    let currentDomain, domain, totalIndex;
 
     totalIndex = main.totalIndex + 1;
 
@@ -351,14 +338,14 @@ function createMessenger() {
 
 createStore.$inject = ['$q', 'ipc'];
 function createStore($q, ipc) {
-  var store = Object.create(null);
+  let store = Object.create(null);
 
   store.load = load;
 
   return store;
 
   function load() {
-    var defer = $q.defer();
+    let defer = $q.defer();
 
     ipc.send('bodyLoaded');
     ipc.once('bodyLoadedReply', function(response, data) {
